@@ -14,10 +14,12 @@ export const usersTable = pgTable(
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     clerkId: varchar().notNull(),
-    name: varchar({ length: 255 }).notNull(),
+    firstName: varchar({ length: 50 }).notNull(),
+    lastName: varchar({ length: 50 }).notNull(),
     email: varchar({ length: 255 }).notNull().unique(),
     dailyReport: boolean("daily_report").default(false),
     premiumUser: boolean("premium_user").default(false),
+    isActive: boolean("is_active").default(true),
     isAdmin: boolean("is_admin").default(false),
     updatedAt: timestamp("updated_at").defaultNow(),
   },
