@@ -10,7 +10,7 @@ const HomePage = async () => {
         Welcome to TaskMaster {user?.firstName ?? ""}
       </h1>
       <p>Task overview</p>
-      <NewTaskDialog />
+      <NewTaskDialog type={"NEW"} taskButton={"Create new task"} />
     </div>
   );
 };
