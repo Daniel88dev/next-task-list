@@ -80,7 +80,7 @@ export async function POST(req: Request) {
 
     const submitUser = await insertUser(userData);
 
-    if (!submitUser) {
+    if (submitUser.length === 0) {
       return new Response("Error: Could not submit user", { status: 400 });
     }
 
@@ -109,7 +109,7 @@ export async function POST(req: Request) {
       clerkId
     );
 
-    if (!submitUserUpdate) {
+    if (submitUserUpdate.length === 0) {
       return new Response("Error: Could not submit user update", {
         status: 400,
       });
@@ -121,7 +121,7 @@ export async function POST(req: Request) {
 
     const submitUserDelete = await onUserDeleted(clerkId);
 
-    if (!submitUserDelete) {
+    if (submitUserDelete.length === 0) {
       return new Response("Error: Could not submit user delete", {
         status: 400,
       });
