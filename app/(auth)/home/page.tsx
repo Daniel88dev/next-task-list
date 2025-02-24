@@ -1,4 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
+import NewTaskDialog from "@/components/newTaskComponent/NewTaskDialog";
 
 const HomePage = async () => {
   const user = await currentUser();
@@ -9,6 +10,7 @@ const HomePage = async () => {
         Welcome to TaskMaster {user?.firstName ?? ""}
       </h1>
       <p>Task overview</p>
+      <NewTaskDialog />
     </div>
   );
 };
