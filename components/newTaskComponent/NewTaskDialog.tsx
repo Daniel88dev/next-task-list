@@ -47,6 +47,12 @@ const NewTaskDialog = (props: Props) => {
     console.log("This is new task");
   }
 
+  const onDateSet = (date: Date | undefined) => {
+    if (date) {
+      setFinishDate(date);
+    } else setFinishDate(null);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -121,8 +127,9 @@ const NewTaskDialog = (props: Props) => {
               <Calendar
                 mode="single"
                 selected={finishDate ?? new Date()}
-                onSelect={setFinishDate}
+                onSelect={onDateSet}
                 initialFocus
+                required={false}
               />
             </PopoverContent>
           </Popover>
