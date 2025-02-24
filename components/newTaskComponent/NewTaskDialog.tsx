@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,6 +14,15 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
 
 type NewTaskProps = {
   type: "NEW";
@@ -29,6 +39,7 @@ type Props = NewTaskProps | EditTaskProps;
 
 const NewTaskDialog = (props: Props) => {
   const [open, setOpen] = useState(false);
+  const [finishDate, setFinishDate] = useState<Date | null>(null);
 
   if (props.type === "EDIT") {
     console.log("This is edit task for task id: " + props.taskData!.id);
@@ -56,8 +67,12 @@ const NewTaskDialog = (props: Props) => {
           <Label htmlFor={"taskDescription"}>Description:</Label>
           <Textarea id={"taskDescription"} name={"taskDescription"} />
           <Label htmlFor={"taskPriority"}>Priority:</Label>
-          <RadioGroup id={"taskPriority"} defaultValue="medium">
-            <div className="flex flex-row items-center space-x-2">
+          <RadioGroup
+            className={"flex"}
+            id={"taskPriority"}
+            defaultValue="medium"
+          >
+            <div className="flex items-center space-x-2">
               <RadioGroupItem value="low" id="r1" />
               <Label htmlFor="r1">Low</Label>
             </div>
@@ -75,16 +90,45 @@ const NewTaskDialog = (props: Props) => {
             </div>
           </RadioGroup>
           <Label htmlFor={"taskStatus"}>Status</Label>
-          <RadioGroup id={"taskStatus"} defaultValue="todo">
-            <div className="flex flex-row items-center space-x-2">
+          <RadioGroup className={"flex"} id={"taskStatus"} defaultValue="todo">
+            <div className="flex items-center space-x-2">
               <RadioGroupItem value={"todo"} id={"s1"} />
               <Label htmlFor={"s1"}>To Do</Label>
             </div>
-            <div className="flex flex-row items-center space-x-2">
+            <div className="flex items-center space-x-2">
               <RadioGroupItem value={"in_progress"} id={"s2"} />
               <Label htmlFor={"s2"}>In Progress</Label>
             </div>
           </RadioGroup>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-[280px] justify-start text-left font-normal",
+                  !finishDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {finishDate ? (
+                  format(finishDate, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={finishDate ?? new Date()}
+                onSelect={setFinishDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+          <DialogFooter>
+            <Button type={"submit"}>Submit</Button>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
