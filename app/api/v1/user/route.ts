@@ -1,7 +1,12 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { insertUser, UserDataType } from "@/drizzle/user";
+import {
+  insertUser,
+  onUserDeleted,
+  updateUser,
+  UserDataType,
+} from "@/drizzle/user";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -48,8 +53,6 @@ export async function POST(req: Request) {
     });
   }
 
-  // Do something with payload
-  // For this guide, log payload to console
   const { id } = evt.data;
   const eventType = evt.type;
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
@@ -82,6 +85,49 @@ export async function POST(req: Request) {
     }
 
     return new Response("User registered", { status: 200 });
+  } else if (eventType === "user.updated") {
+    const emailArrayId = evt.data.primary_email_address_id!;
+
+    const findEmailAddress = evt.data.email_addresses.find(
+      (email) => email.id === emailArrayId
+    );
+
+    if (!findEmailAddress) {
+      return new Response("Error: Could not find email address", {
+        status: 400,
+      });
+    }
+
+    const firstName = evt.data.first_name!;
+    const lastName = evt.data.last_name!;
+    const clerkId = evt.data.id!;
+
+    const submitUserUpdate = await updateUser(
+      firstName,
+      lastName,
+      findEmailAddress.email_address,
+      clerkId
+    );
+
+    if (!submitUserUpdate) {
+      return new Response("Error: Could not submit user update", {
+        status: 400,
+      });
+    }
+
+    return new Response("User updated", { status: 200 });
+  } else if (eventType === "user.deleted") {
+    const clerkId = evt.data.id!;
+
+    const submitUserDelete = await onUserDeleted(clerkId);
+
+    if (!submitUserDelete) {
+      return new Response("Error: Could not submit user delete", {
+        status: 400,
+      });
+    }
+
+    return new Response("User deleted", { status: 200 });
   }
 
   return new Response("Webhook received", { status: 200 });
