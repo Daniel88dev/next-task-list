@@ -20,9 +20,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  ChevronDown,
+  ChevronUp,
+  Minus,
+  ShieldAlert,
+} from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import RadioItemWithTooltip from "@/components/RadioItemWithTooltip/RadioItemWithTooltip";
 
 type NewTaskProps = {
   type: "NEW";
@@ -73,28 +81,50 @@ const NewTaskDialog = (props: Props) => {
           <Label htmlFor={"taskDescription"}>Description:</Label>
           <Textarea id={"taskDescription"} name={"taskDescription"} />
           <Label htmlFor={"taskPriority"}>Priority:</Label>
-          <RadioGroup
-            className={"flex"}
-            id={"taskPriority"}
-            defaultValue="medium"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="low" id="r1" />
-              <Label htmlFor="r1">Low</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="medium" id="r2" />
-              <Label htmlFor="r2">Medium</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="high" id="r3" />
-              <Label htmlFor="r3">High</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="urgent" id="r3" />
-              <Label htmlFor="r3">Urgent</Label>
-            </div>
-          </RadioGroup>
+          <TooltipProvider>
+            <RadioGroup
+              className={"grid grid-cols-3 gap-4"}
+              id={"taskPriority"}
+              defaultValue="medium"
+            >
+              <RadioItemWithTooltip
+                key={"r1"}
+                radioId={"r1"}
+                radioValue={"low"}
+                toolTipText={"Low"}
+                labelClassName={"p-4"}
+              >
+                <ChevronDown />
+              </RadioItemWithTooltip>
+              <RadioItemWithTooltip
+                key={"r2"}
+                radioId={"r2"}
+                radioValue={"medium"}
+                toolTipText={"Medium"}
+                labelClassName={"p-4"}
+              >
+                <Minus />
+              </RadioItemWithTooltip>
+              <RadioItemWithTooltip
+                key={"r3"}
+                radioId={"r3"}
+                radioValue={"high"}
+                toolTipText={"High"}
+                labelClassName={"p-4"}
+              >
+                <ChevronUp />
+              </RadioItemWithTooltip>
+              <RadioItemWithTooltip
+                key={"r4"}
+                radioId={"r4"}
+                radioValue={"urgent"}
+                toolTipText={"Urgent"}
+                labelClassName={"p-4"}
+              >
+                <ShieldAlert />
+              </RadioItemWithTooltip>
+            </RadioGroup>
+          </TooltipProvider>
           <Label htmlFor={"taskStatus"}>Status</Label>
           <RadioGroup className={"flex"} id={"taskStatus"} defaultValue="todo">
             <div className="flex items-center space-x-2">
