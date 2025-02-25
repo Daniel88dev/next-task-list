@@ -70,115 +70,134 @@ const NewTaskDialog = (props: Props) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Task</DialogTitle>
+          <DialogTitle className={"text-2xl"}>Create New Task</DialogTitle>
         </DialogHeader>
-        <form>
-          <Label htmlFor={"taskTitle"}>Task Title:</Label>
-          <Input
-            id={"taskTitle"}
-            name={"taskTitle"}
-            type={"text"}
-            maxLength={50}
-          />
-          <Label htmlFor={"taskDescription"}>Description:</Label>
-          <Textarea id={"taskDescription"} name={"taskDescription"} />
-          <Label htmlFor={"taskPriority"}>Priority:</Label>
-          <TooltipProvider>
-            <RadioGroup
-              className={"grid grid-cols-4 gap-2 w-48"}
-              id={"taskPriority"}
-              defaultValue="medium"
-            >
-              <RadioItemWithTooltip
-                key={"r1"}
-                radioId={"r1"}
-                radioValue={"low"}
-                toolTipText={"Low"}
-                labelClassName={"p-0"}
+        <form className={"flex flex-col"}>
+          <div className={"py-4"}>
+            <Label htmlFor={"taskTitle"} className={"text-lg"}>
+              Task Title:
+            </Label>
+            <Input
+              id={"taskTitle"}
+              name={"taskTitle"}
+              type={"text"}
+              maxLength={50}
+            />
+          </div>
+          <div className={"py-4"}>
+            <Label htmlFor={"taskDescription"} className={"text-lg"}>
+              Description:
+            </Label>
+            <Textarea id={"taskDescription"} name={"taskDescription"} />
+          </div>
+          <div className={"py-4"}>
+            <Label htmlFor={"taskPriority"} className={"text-lg"}>
+              Priority:
+            </Label>
+            <TooltipProvider>
+              <RadioGroup
+                className={"grid grid-cols-4 gap-2 w-48"}
+                id={"taskPriority"}
+                defaultValue="medium"
               >
-                <ChevronDown />
-              </RadioItemWithTooltip>
-              <RadioItemWithTooltip
-                key={"r2"}
-                radioId={"r2"}
-                radioValue={"medium"}
-                toolTipText={"Medium"}
-                labelClassName={"p-0"}
+                <RadioItemWithTooltip
+                  key={"r1"}
+                  radioId={"r1"}
+                  radioValue={"low"}
+                  toolTipText={"Low"}
+                  labelClassName={"p-0"}
+                >
+                  <ChevronDown />
+                </RadioItemWithTooltip>
+                <RadioItemWithTooltip
+                  key={"r2"}
+                  radioId={"r2"}
+                  radioValue={"medium"}
+                  toolTipText={"Medium"}
+                  labelClassName={"p-0"}
+                >
+                  <Minus />
+                </RadioItemWithTooltip>
+                <RadioItemWithTooltip
+                  key={"r3"}
+                  radioId={"r3"}
+                  radioValue={"high"}
+                  toolTipText={"High"}
+                  labelClassName={"p-0"}
+                >
+                  <ChevronUp />
+                </RadioItemWithTooltip>
+                <RadioItemWithTooltip
+                  key={"r4"}
+                  radioId={"r4"}
+                  radioValue={"urgent"}
+                  toolTipText={"Urgent"}
+                  labelClassName={"p-0 text-red-500"}
+                >
+                  <ShieldAlert />
+                </RadioItemWithTooltip>
+              </RadioGroup>
+            </TooltipProvider>
+          </div>
+          <div className={"py-4"}>
+            <Label htmlFor={"taskStatus"} className={"text-lg"}>
+              Status:
+            </Label>
+            <TooltipProvider>
+              <RadioGroup
+                className={"grid grid-cols-4 gap-2 w-48"}
+                id={"taskStatus"}
+                defaultValue="todo"
               >
-                <Minus />
-              </RadioItemWithTooltip>
-              <RadioItemWithTooltip
-                key={"r3"}
-                radioId={"r3"}
-                radioValue={"high"}
-                toolTipText={"High"}
-                labelClassName={"p-0"}
-              >
-                <ChevronUp />
-              </RadioItemWithTooltip>
-              <RadioItemWithTooltip
-                key={"r4"}
-                radioId={"r4"}
-                radioValue={"urgent"}
-                toolTipText={"Urgent"}
-                labelClassName={"p-0 text-red-500"}
-              >
-                <ShieldAlert />
-              </RadioItemWithTooltip>
-            </RadioGroup>
-          </TooltipProvider>
-          <Label htmlFor={"taskStatus"}>Status</Label>
-          <TooltipProvider>
-            <RadioGroup
-              className={"grid grid-cols-4 gap-2 w-48"}
-              id={"taskStatus"}
-              defaultValue="todo"
-            >
-              <RadioItemWithTooltip
-                radioId={"s1"}
-                radioValue={"todo"}
-                toolTipText={"To Do"}
-                labelClassName={"p-0"}
-              >
-                <ListTodo />
-              </RadioItemWithTooltip>
-              <RadioItemWithTooltip
-                radioId={"s2"}
-                radioValue={"in_progress"}
-                toolTipText={"In Progress"}
-                labelClassName={"p-0"}
-              >
-                <Ellipsis />
-              </RadioItemWithTooltip>
-            </RadioGroup>
-          </TooltipProvider>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-[280px] justify-start text-left font-normal",
-                  !finishDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {finishDate ? (
-                  format(finishDate, "PPP")
-                ) : (
-                  <span>Pick a date</span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={finishDate ?? new Date()}
-                onSelect={onDateSet}
-                initialFocus
-                required={false}
-              />
-            </PopoverContent>
-          </Popover>
+                <RadioItemWithTooltip
+                  radioId={"s1"}
+                  radioValue={"todo"}
+                  toolTipText={"To Do"}
+                  labelClassName={"p-0"}
+                >
+                  <ListTodo />
+                </RadioItemWithTooltip>
+                <RadioItemWithTooltip
+                  radioId={"s2"}
+                  radioValue={"in_progress"}
+                  toolTipText={"In Progress"}
+                  labelClassName={"p-0"}
+                >
+                  <Ellipsis />
+                </RadioItemWithTooltip>
+              </RadioGroup>
+            </TooltipProvider>
+          </div>
+          <div className={"py-4"}>
+            <Label className={"text-lg"}>Finish Date:</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-[280px] justify-start text-left font-normal",
+                    !finishDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {finishDate ? (
+                    format(finishDate, "PPP")
+                  ) : (
+                    <span>Pick a Finish Date</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={finishDate ?? new Date()}
+                  onSelect={onDateSet}
+                  initialFocus
+                  required={false}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
           <DialogFooter>
             <Button type={"submit"}>Submit</Button>
           </DialogFooter>
