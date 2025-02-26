@@ -157,36 +157,36 @@ const NewTaskDialog = (props: Props) => {
                   radioId={"r1"}
                   radioValue={"low"}
                   toolTipText={"Low"}
-                  labelClassName={"p-0"}
+                  labelClassName={"p-0 h-8 py-2"}
                 >
-                  <ChevronDown />
+                  <ChevronDown size={16} />
                 </RadioItemWithTooltip>
                 <RadioItemWithTooltip
                   key={"r2"}
                   radioId={"r2"}
                   radioValue={"medium"}
                   toolTipText={"Medium"}
-                  labelClassName={"p-0"}
+                  labelClassName={"p-0 h-8 py-2"}
                 >
-                  <Minus />
+                  <Minus size={16} />
                 </RadioItemWithTooltip>
                 <RadioItemWithTooltip
                   key={"r3"}
                   radioId={"r3"}
                   radioValue={"high"}
                   toolTipText={"High"}
-                  labelClassName={"p-0"}
+                  labelClassName={"p-0 h-8 py-2"}
                 >
-                  <ChevronUp />
+                  <ChevronUp size={16} />
                 </RadioItemWithTooltip>
                 <RadioItemWithTooltip
                   key={"r4"}
                   radioId={"r4"}
                   radioValue={"urgent"}
                   toolTipText={"Urgent"}
-                  labelClassName={"p-0 text-red-500"}
+                  labelClassName={"p-0 text-red-500 h-8 py-2"}
                 >
-                  <ShieldAlert />
+                  <ShieldAlert size={16} />
                 </RadioItemWithTooltip>
               </RadioGroup>
             </TooltipProvider>
@@ -206,17 +206,17 @@ const NewTaskDialog = (props: Props) => {
                   radioId={"s1"}
                   radioValue={"todo"}
                   toolTipText={"To Do"}
-                  labelClassName={"p-0"}
+                  labelClassName={"p-0 h-8 py-2"}
                 >
-                  <ListTodo />
+                  <ListTodo size={16} />
                 </RadioItemWithTooltip>
                 <RadioItemWithTooltip
                   radioId={"s2"}
                   radioValue={"in_progress"}
                   toolTipText={"In Progress"}
-                  labelClassName={"p-0"}
+                  labelClassName={"p-0 h-8 py-2"}
                 >
-                  <Ellipsis />
+                  <Ellipsis size={16} />
                 </RadioItemWithTooltip>
               </RadioGroup>
             </TooltipProvider>
@@ -261,7 +261,7 @@ const NewTaskDialog = (props: Props) => {
           <input
             type={"hidden"}
             name={"targetDate"}
-            value={data.targetDate?.toDateString() ?? "none"}
+            value={data.targetDate?.toISOString().split("T")[0] ?? "none"}
             readOnly
           />
           <DialogFooter>
