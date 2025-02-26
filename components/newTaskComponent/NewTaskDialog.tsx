@@ -1,5 +1,5 @@
 "use client";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -37,6 +37,7 @@ import {
   NewTaskActionType,
   submitNewTask,
 } from "@/components/newTaskComponent/newTaskAction";
+import { toast } from "sonner";
 
 type NewTaskProps = {
   type: "NEW";
@@ -77,7 +78,22 @@ const NewTaskDialog = (props: Props) => {
     errors: null,
   } as NewTaskActionType);
 
-  console.log(newTaskFormState);
+  useEffect(() => {
+    if (!newTaskFormState.success && newTaskFormState.errors && open) {
+      toast.error("Error on creating new task", {
+        style: { background: "red" },
+      });
+    } else if (newTaskFormState.success && open) {
+      toast.success("New task created successfully");
+      setData({
+        priority: "medium",
+        status: "todo",
+        targetDate: null,
+      });
+      newTaskFormState.success = false;
+      setOpen(false);
+    }
+  }, [newTaskFormState, open]);
 
   const onDateSet = (date: Date | undefined) => {
     if (date) {
@@ -265,6 +281,14 @@ const NewTaskDialog = (props: Props) => {
             value={data.targetDate?.toISOString().split("T")[0] ?? "none"}
             readOnly
           />
+          <ul>
+            {newTaskFormState.errors &&
+              Object.keys(newTaskFormState.errors).map((error) => (
+                <li key={"errorNewTask" + error} className={"text-red-500"}>
+                  {newTaskFormState.errors![error]}
+                </li>
+              ))}
+          </ul>
           <DialogFooter>
             <Button type={"submit"}>Submit</Button>
           </DialogFooter>
