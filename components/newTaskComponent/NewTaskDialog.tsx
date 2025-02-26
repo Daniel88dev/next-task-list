@@ -133,6 +133,7 @@ const NewTaskDialog = (props: Props) => {
               name={"taskTitle"}
               type={"text"}
               maxLength={50}
+              minLength={5}
             />
           </div>
           <div className={"py-4"}>
