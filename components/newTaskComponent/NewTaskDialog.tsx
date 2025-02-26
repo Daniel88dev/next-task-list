@@ -33,7 +33,6 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import RadioItemWithTooltip from "@/components/RadioItemWithTooltip/RadioItemWithTooltip";
-import { useFormState } from "react-dom";
 import {
   NewTaskActionType,
   submitNewTask,
@@ -52,9 +51,19 @@ type EditTaskProps = {
 
 type Props = NewTaskProps | EditTaskProps;
 
+type State = {
+  priority: string;
+  status: string;
+  targetDate: Date | null;
+};
+
 const NewTaskDialog = (props: Props) => {
   const [open, setOpen] = useState(false);
-  const [finishDate, setFinishDate] = useState<Date | null>(null);
+  const [data, setData] = useState<State>({
+    priority: "medium",
+    status: "todo",
+    targetDate: null,
+  });
 
   if (props.type === "EDIT") {
     console.log("This is edit task for task id: " + props.taskData!.id);
@@ -68,13 +77,42 @@ const NewTaskDialog = (props: Props) => {
     errors: null,
   } as NewTaskActionType);
 
+  console.log(newTaskFormState);
+
   const onDateSet = (date: Date | undefined) => {
     if (date) {
-      setFinishDate(date);
-    } else setFinishDate(null);
+      setData((prevState) => {
+        return {
+          ...prevState,
+          targetDate: date,
+        };
+      });
+    } else
+      setData((prevState) => {
+        return {
+          ...prevState,
+          targetDate: null,
+        };
+      });
   };
 
-  console.log(newTaskFormState);
+  const onPriorityChange = (value: string) => {
+    setData((prevState) => {
+      return {
+        ...prevState,
+        priority: value,
+      };
+    });
+  };
+
+  const onStatusChange = (value: string) => {
+    setData((prevState) => {
+      return {
+        ...prevState,
+        status: value,
+      };
+    });
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -111,7 +149,8 @@ const NewTaskDialog = (props: Props) => {
               <RadioGroup
                 className={"grid grid-cols-4 gap-2 w-48"}
                 id={"taskPriority"}
-                defaultValue="medium"
+                defaultValue={data.priority}
+                onValueChange={onPriorityChange}
               >
                 <RadioItemWithTooltip
                   key={"r1"}
@@ -160,7 +199,8 @@ const NewTaskDialog = (props: Props) => {
               <RadioGroup
                 className={"grid grid-cols-4 gap-2 w-48"}
                 id={"taskStatus"}
-                defaultValue="todo"
+                defaultValue={data.status}
+                onValueChange={onStatusChange}
               >
                 <RadioItemWithTooltip
                   radioId={"s1"}
@@ -189,12 +229,12 @@ const NewTaskDialog = (props: Props) => {
                   variant={"outline"}
                   className={cn(
                     "w-[280px] justify-start text-left font-normal",
-                    !finishDate && "text-muted-foreground"
+                    !data.targetDate && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {finishDate ? (
-                    format(finishDate, "PPP")
+                  {data.targetDate ? (
+                    format(data.targetDate, "PPP")
                   ) : (
                     <span>Pick a Finish Date</span>
                   )}
@@ -203,7 +243,7 @@ const NewTaskDialog = (props: Props) => {
               <PopoverContent className="w-auto p-0">
                 <Calendar
                   mode="single"
-                  selected={finishDate ?? new Date()}
+                  selected={data.targetDate ?? new Date()}
                   onSelect={onDateSet}
                   initialFocus
                   required={false}
@@ -211,6 +251,19 @@ const NewTaskDialog = (props: Props) => {
               </PopoverContent>
             </Popover>
           </div>
+          <input
+            type={"hidden"}
+            name={"priority"}
+            value={data.priority}
+            readOnly
+          />
+          <input type={"hidden"} name={"status"} value={data.status} readOnly />
+          <input
+            type={"hidden"}
+            name={"targetDate"}
+            value={data.targetDate?.toDateString() ?? "none"}
+            readOnly
+          />
           <DialogFooter>
             <Button type={"submit"}>Submit</Button>
           </DialogFooter>
