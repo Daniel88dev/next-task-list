@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import { TaskTableType } from "@/drizzle/taskTable";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import {
   Popover,
   PopoverContent,
@@ -33,6 +33,11 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import RadioItemWithTooltip from "@/components/RadioItemWithTooltip/RadioItemWithTooltip";
+import { useFormState } from "react-dom";
+import {
+  NewTaskActionType,
+  submitNewTask,
+} from "@/components/newTaskComponent/newTaskAction";
 
 type NewTaskProps = {
   type: "NEW";
@@ -57,11 +62,19 @@ const NewTaskDialog = (props: Props) => {
     console.log("This is new task");
   }
 
+  const [newTaskFormState, newTaskFormAction] = useActionState(submitNewTask, {
+    type: props.type,
+    success: false,
+    errors: null,
+  } as NewTaskActionType);
+
   const onDateSet = (date: Date | undefined) => {
     if (date) {
       setFinishDate(date);
     } else setFinishDate(null);
   };
+
+  console.log(newTaskFormState);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -72,7 +85,7 @@ const NewTaskDialog = (props: Props) => {
         <DialogHeader>
           <DialogTitle className={"text-2xl"}>Create New Task</DialogTitle>
         </DialogHeader>
-        <form className={"flex flex-col"}>
+        <form className={"flex flex-col"} action={newTaskFormAction}>
           <div className={"py-4"}>
             <Label htmlFor={"taskTitle"} className={"text-lg"}>
               Task Title:
