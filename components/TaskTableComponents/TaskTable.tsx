@@ -1,3 +1,5 @@
+"use client";
+
 import { TaskTableType } from "@/drizzle/taskTable";
 import {
   Table,
@@ -8,12 +10,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
+// import { useReactTable } from "@tanstack/react-table";
 
 type Props = {
   tasks: TaskTableType[];
 };
 
 const TaskTable = ({ tasks }: Props) => {
+  // const table = useReactTable({
+  //   data: tasks,
+  // });
   return (
     <div className={"space-y-4"}>
       <div className={"rounded-md border"}>
