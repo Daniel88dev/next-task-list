@@ -1,7 +1,8 @@
 import Link from "next/link";
-import Logo from "../../_components/vercel.svg";
 import { ModeToggle } from "@/components/DarkModeToggle";
 import { UserButton } from "@clerk/nextjs";
+import { Navigation } from "@/app/(auth)/_components/Navigation";
+import { BookCheck } from "lucide-react";
 
 const AuthHeader = () => {
   return (
@@ -10,9 +11,10 @@ const AuthHeader = () => {
         href={"/home"}
         className={"flex gap-2 text-center items-center text-xl"}
       >
-        <Logo className={"w-8 h-8 dark:fill-white dark:text-white"} />
-        TaskMaster
+        <BookCheck size={40} />
+        Task Master
       </Link>
+      <Navigation />
       <div className={"flex gap-4"}>
         <ModeToggle />
         <UserButton />
