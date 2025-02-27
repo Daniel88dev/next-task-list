@@ -28,7 +28,7 @@ export function Navigation() {
                 <NavigationMenuLink asChild>
                   <Link
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/"
+                    href="/tasks"
                   >
                     <BookCheck size={60} className={"m-auto"} />
                     <div className="mb-2 mt-4 text-lg font-medium">Tasks</div>
@@ -64,12 +64,12 @@ export function Navigation() {
 
 const ListItem = React.forwardRef<
   ComponentRef<"a">,
-  ComponentPropsWithoutRef<"a">
+  ComponentPropsWithoutRef<typeof Link>
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
@@ -81,7 +81,7 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   );
