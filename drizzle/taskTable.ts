@@ -17,6 +17,8 @@ export const getSingleTask = async (taskId: number, userId: number) => {
     .where(and(eq(taskTable.id, taskId), eq(taskTable.userId, userId)));
 };
 
-export const getTasksForUser = async (userId: number) => {
+export const getTasksForUser = async (
+  userId: number
+): Promise<TaskTableType[]> => {
   return db.select().from(taskTable).where(eq(taskTable.userId, userId));
 };
