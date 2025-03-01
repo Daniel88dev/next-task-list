@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/table-core";
 import { TaskTableType } from "@/drizzle/taskTable";
 import { format } from "date-fns";
 import {
+  ArrowUpDown,
   Check,
   ChevronDown,
   ChevronUp,
@@ -26,7 +27,18 @@ import { Button } from "@/components/ui/button";
 export const taskTableColumns: ColumnDef<TaskTableType>[] = [
   {
     accessorKey: "title",
-    header: () => <div className="text-left">Title</div>,
+    header: ({ column }) => {
+      return (
+        // <div className="text-left">Title</div>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Title
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       return <div className="text-left">{row.getValue("title")}</div>;
     },
@@ -85,7 +97,17 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
   },
   {
     accessorKey: "dueDate",
-    header: () => <div className="text-right">Due Date</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Due Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const date: Date | null = row.getValue("dueDate");
       const dateString = date ? format(date, "PPP") : "";
