@@ -28,7 +28,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { useReactTable } from "@tanstack/react-table";
+import { DataTableFacetedFilter } from "@/components/TaskTableComponents/DataTableFacetedFilter";
+import { ChevronDown, ChevronUp, Minus, ShieldAlert } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -63,6 +64,25 @@ export function TaskDataTable<TData, TValue>({
     },
   });
 
+  const priorities = [
+    {
+      label: "Low",
+      value: "low",
+      icon: ChevronDown,
+    },
+    {
+      label: "Medium",
+      value: "medium",
+      icon: Minus,
+    },
+    {
+      label: "High",
+      value: "high",
+      icon: ChevronUp,
+    },
+    { label: "Urgent", value: "urgent", icon: ShieldAlert },
+  ];
+
   return (
     <div>
       <div className="flex items-center py-4">
@@ -74,6 +94,13 @@ export function TaskDataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        {table.getColumn("priority") && (
+          <DataTableFacetedFilter
+            options={priorities}
+            title="Priority"
+            column={table.getColumn("priority")}
+          />
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
