@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DataTableFacetedFilter } from "@/components/TaskTableComponents/DataTableFacetedFilter";
 import { ChevronDown, ChevronUp, Minus, ShieldAlert } from "lucide-react";
+import NewTaskDialog from "@/components/newTaskComponent/NewTaskDialog";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -101,6 +102,7 @@ export function TaskDataTable<TData, TValue>({
             column={table.getColumn("priority")}
           />
         )}
+        <NewTaskDialog type={"NEW"} taskButton={"New Task"} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
