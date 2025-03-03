@@ -6,7 +6,7 @@ import { BookCheck } from "lucide-react";
 
 const AuthHeader = () => {
   return (
-    <header className="sticky flex top-0 text-center px-4 h-[5vh] justify-between items-center bg-white dark:bg-black">
+    <header className="sticky flex top-0 text-center px-4 h-[5vh] justify-between items-center bg-white dark:bg-black z-10">
       <Link
         href={"/home"}
         className={"flex gap-2 text-center items-center text-xl"}
