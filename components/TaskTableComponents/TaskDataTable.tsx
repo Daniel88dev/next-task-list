@@ -29,7 +29,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTableFacetedFilter } from "@/components/TaskTableComponents/DataTableFacetedFilter";
-import { ChevronDown, ChevronUp, Minus, ShieldAlert } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Ellipsis,
+  ListTodo,
+  Minus,
+  ShieldAlert,
+} from "lucide-react";
 import NewTaskDialog from "@/components/newTaskComponent/NewTaskDialog";
 
 interface DataTableProps<TData, TValue> {
@@ -84,9 +92,27 @@ export function TaskDataTable<TData, TValue>({
     { label: "Urgent", value: "urgent", icon: ShieldAlert },
   ];
 
+  const status = [
+    {
+      label: "To Do",
+      value: "todo",
+      icon: ListTodo,
+    },
+    {
+      label: "In Progress",
+      value: "in_progress",
+      icon: Ellipsis,
+    },
+    {
+      label: "Done",
+      value: "completed",
+      icon: Check,
+    },
+  ];
+
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
         <Input
           placeholder="Filter Titles..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
@@ -100,6 +126,13 @@ export function TaskDataTable<TData, TValue>({
             options={priorities}
             title="Priority"
             column={table.getColumn("priority")}
+          />
+        )}
+        {table.getColumn("status") && (
+          <DataTableFacetedFilter
+            options={status}
+            title="Status"
+            column={table.getColumn("status")}
           />
         )}
         <NewTaskDialog type={"NEW"} taskButton={"New Task"} />

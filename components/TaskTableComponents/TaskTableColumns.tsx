@@ -157,7 +157,7 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
           Icon = <Ellipsis />;
           statusText = "In Progress";
           break;
-        case "done":
+        case "completed":
           Icon = <Check />;
           statusText = "Done";
           break;
