@@ -22,6 +22,7 @@ export const usersTable = pgTable(
     isActive: boolean("is_active").default(true),
     isAdmin: boolean("is_admin").default(false),
     updatedAt: timestamp("updated_at").defaultNow(),
+    lastTask: integer("last_task").default(1),
   },
   (userTable) => {
     return {
@@ -53,20 +54,31 @@ export const projectsTable = pgTable("projects_table", {
     .references(() => usersTable.id),
 });
 
-export const taskTable = pgTable("task_table", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar("title", { length: 255 }).notNull(),
-  description: text("description"),
-  type: varchar("type").notNull(),
-  status: statusEnum().default("todo"),
-  priority: priorityEnum().default("low"),
-  dueDate: timestamp("due_date"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at")
-    .defaultNow()
-    .$onUpdate(() => new Date()),
-  completedAt: timestamp("completed_at"),
-  userId: integer("user_id")
-    .notNull()
-    .references(() => usersTable.id),
-});
+export const taskTable = pgTable(
+  "task_table",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    taskUserId: varchar("task_user_id", { length: 10 }),
+    title: varchar("title", { length: 255 }).notNull(),
+    description: text("description"),
+    type: varchar("type").notNull(),
+    status: statusEnum().default("todo"),
+    priority: priorityEnum().default("low"),
+    dueDate: timestamp("due_date"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+    completedAt: timestamp("completed_at"),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => usersTable.id),
+  },
+  (taskTable) => {
+    return {
+      uniqueTaskUserId: uniqueIndex("unique_task_user_idx").on(
+        taskTable.taskUserId
+      ),
+    };
+  }
+);

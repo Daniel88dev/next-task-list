@@ -88,7 +88,18 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
   },
   {
     accessorKey: "priority",
-    header: () => <div className="text-left">Priority</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-left"
+        >
+          Priority
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const priority: string = row.getValue("priority");
 
@@ -135,12 +146,23 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
       const date: Date | null = row.getValue("dueDate");
       const dateString = date ? format(date, "PPP") : "";
 
-      return <div className="text-right font-medium">{dateString}</div>;
+      return <div className="text-left font-medium">{dateString}</div>;
     },
   },
   {
     accessorKey: "status",
-    header: () => <div className="text-left">Status</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-left"
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const status: string = row.getValue("status");
 

@@ -52,3 +52,17 @@ export const getUserId = async () => {
 
   return user.id;
 };
+
+export const increaseUserTaskId = async (userId: number) => {
+  const lastUserTaskId = db
+    .select({ lastTask: usersTable.lastTask })
+    .from(usersTable)
+    .where(eq(usersTable.id, userId));
+  if (!lastUserTaskId) {
+    throw new Error("User not found");
+  }
+
+  // db.update(usersTable).set({
+  //   lastTask: lastUserTaskId[0].lastTask + 1,
+  // })
+};
