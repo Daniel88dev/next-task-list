@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 export const taskTableColumns: ColumnDef<TaskTableType>[] = [
   {
@@ -52,7 +53,6 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
     accessorKey: "title",
     header: ({ column }) => {
       return (
-        // <div className="text-left">Title</div>
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -63,7 +63,7 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-left">{row.getValue("title")}</div>;
+      return <div className="text-left w-80">{row.getValue("title")}</div>;
     },
   },
   {
@@ -79,7 +79,7 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
         : "";
 
       return (
-        <div className="text-left">
+        <div className="text-left w-[400px]">
           {shortenedDescription}
           {descriptionLength > 50 ? "..." : ""}
         </div>
@@ -197,6 +197,10 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
               }
             >
               Copy Task Detail
+            </DropdownMenuItem>
+            <DropdownMenuItem>Finish Task</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/tasks/${task.id}/comment`}>Edit Comment</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit Task</DropdownMenuItem>

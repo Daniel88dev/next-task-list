@@ -19,7 +19,7 @@ export default async function AuthenticatedLayout({
     <SignedIn>
       <AuthHeader />
       <div className="min-h-[90%] flex flex-col items-center justify-center p-4">
-        <main className="max-w-4xl w-full rounded-lg shadow-xl p-8 space-y-8">
+        <main className="w-full rounded-lg shadow-xl p-8 space-y-8">
           {children}
         </main>
       </div>
