@@ -1,6 +1,6 @@
 import { usersTable } from "@/drizzle/schema";
 import { db } from "@/drizzle/db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { currentUser } from "@clerk/nextjs/server";
 
 export type UserDataType = typeof usersTable.$inferInsert;
@@ -54,15 +54,11 @@ export const getUserId = async () => {
 };
 
 export const increaseUserTaskId = async (userId: number) => {
-  const lastUserTaskId = db
-    .select({ lastTask: usersTable.lastTask })
-    .from(usersTable)
-    .where(eq(usersTable.id, userId));
-  if (!lastUserTaskId) {
-    throw new Error("User not found");
-  }
-
-  // db.update(usersTable).set({
-  //   lastTask: lastUserTaskId[0].lastTask + 1,
-  // })
+  return db
+    .update(usersTable)
+    .set({
+      lastTask: sql`${usersTable.lastTask} + 1`,
+    })
+    .where(eq(usersTable.id, userId))
+    .returning({ currentTask: usersTable.lastTask });
 };

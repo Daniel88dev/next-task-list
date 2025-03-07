@@ -22,7 +22,7 @@ export const usersTable = pgTable(
     isActive: boolean("is_active").default(true),
     isAdmin: boolean("is_admin").default(false),
     updatedAt: timestamp("updated_at").defaultNow(),
-    lastTask: integer("last_task").default(1),
+    lastTask: integer("last_task").default(0),
   },
   (userTable) => {
     return {

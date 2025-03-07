@@ -25,6 +25,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
+import { increaseUserTaskId } from "@/drizzle/user";
+import { testFunction } from "@/app/(auth)/tasks/test";
 
 export const taskTableColumns: ColumnDef<TaskTableType>[] = [
   {
@@ -220,7 +222,13 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
             >
               Copy Task Detail
             </DropdownMenuItem>
-            <DropdownMenuItem>Finish Task</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                await testFunction();
+              }}
+            >
+              Finish Task
+            </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href={`/tasks/${task.id}/comment`}>Edit Comment</Link>
             </DropdownMenuItem>
