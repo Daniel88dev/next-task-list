@@ -1,7 +1,8 @@
 "use server";
 
 import { insertNewTask, TaskTableInsertType } from "@/drizzle/taskTable";
-import { getUserId } from "@/drizzle/user";
+import { getUserId, increaseUserTaskId } from "@/drizzle/user";
+import { formatTaskId } from "@/components/newTaskComponent/taskIdHelper";
 
 export type NewTaskActionType = {
   type: "NEW";
@@ -65,6 +66,21 @@ export const submitNewTask = async (
     };
   }
 
+  const getTaskId = await increaseUserTaskId(userId);
+
+  if (!getTaskId[0].currentTask || isNaN(getTaskId[0].currentTask)) {
+    errors.server = "Server error";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return {
+      ...prevState,
+      errors,
+    };
+  }
+
+  const taskIdString = formatTaskId(userId, getTaskId[0].currentTask!);
+
   const task: TaskTableInsertType = {
     title: taskTitle,
     description: taskDescription,
@@ -73,6 +89,7 @@ export const submitNewTask = async (
     status: status as "todo" | "in_progress",
     dueDate: targetDate,
     userId: userId,
+    taskUserId: taskIdString,
   };
 
   const insertTask = await insertNewTask(task);
