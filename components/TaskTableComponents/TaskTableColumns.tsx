@@ -232,7 +232,11 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
             <DropdownMenuItem
               onClick={() =>
                 navigator.clipboard.writeText(
-                  task.title + " - " + task.description
+                  task.taskUserId +
+                    " - " +
+                    task.title +
+                    " - " +
+                    task.description
                 )
               }
             >

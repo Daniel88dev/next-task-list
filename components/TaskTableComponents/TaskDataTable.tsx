@@ -49,7 +49,9 @@ export function TaskDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { desc: false, id: "taskUserId" },
+  ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
@@ -72,6 +74,8 @@ export function TaskDataTable<TData, TValue>({
       rowSelection,
     },
   });
+
+  console.log(sorting);
 
   const priorities = [
     {
