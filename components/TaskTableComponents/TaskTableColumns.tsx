@@ -51,6 +51,23 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "taskUserId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Task ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <div className="text-left">{row.getValue("taskUserId")}</div>;
+    },
+  },
+  {
     accessorKey: "title",
     header: ({ column }) => {
       return (
@@ -64,7 +81,7 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-left w-80">{row.getValue("title")}</div>;
+      return <div className="text-left">{row.getValue("title")}</div>;
     },
   },
   {
