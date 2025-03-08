@@ -7,18 +7,21 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { TaskTableType } from "@/drizzle/taskTable";
+import { useRouter } from "next/navigation";
 
 const EditTaskDescriptionDialog = ({ task }: { task: TaskTableType }) => {
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const [open, setOpen] = useState(true);
+
+  const handleClose = (value: boolean) => {
+    setOpen(value);
+    router.back();
+  };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger onClick={() => setOpen(true)}>
-        Edit Description
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Description</DialogTitle>
