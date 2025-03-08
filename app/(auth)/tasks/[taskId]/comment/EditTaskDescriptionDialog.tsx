@@ -22,6 +22,7 @@ const EditTaskDescriptionDialog = ({ task }: { task: TaskTableType }) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Description</DialogTitle>
+          <DialogDescription>Task ID: {task.taskUserId}</DialogDescription>
           <DialogDescription>Task: {task.title}</DialogDescription>
         </DialogHeader>
       </DialogContent>

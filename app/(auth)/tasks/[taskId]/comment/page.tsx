@@ -2,6 +2,7 @@
 
 import { getUserId } from "@/drizzle/user";
 import { getSingleTask } from "@/drizzle/taskTable";
+import EditTaskDescription from "@/app/(auth)/tasks/[taskId]/comment/EditTaskDescription";
 
 const EditTaskPage = async ({
   params,
@@ -17,7 +18,7 @@ const EditTaskPage = async ({
     return <h1>Task not found</h1>;
   }
 
-  return <h1>{taskData[0].title}</h1>;
+  return <EditTaskDescription task={taskData[0]} />;
 };
 
 export default EditTaskPage;
