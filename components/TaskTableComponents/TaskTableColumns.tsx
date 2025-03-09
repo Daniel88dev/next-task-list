@@ -305,10 +305,12 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
             >
               Finish Task
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={`/tasks/${task.id}/comment`}>Edit Comment</Link>
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/tasks/${task.taskUserId}/comment`}>
+                Edit Comment
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Edit Task</DropdownMenuItem>
             <DropdownMenuItem>Change Due Date</DropdownMenuItem>
           </DropdownMenuContent>

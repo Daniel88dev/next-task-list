@@ -7,7 +7,7 @@ import EditTaskDescription from "@/app/(auth)/tasks/[taskId]/comment/EditTaskDes
 const EditTaskPage = async ({
   params,
 }: {
-  params: Promise<{ taskId: number }>;
+  params: Promise<{ taskId: string }>;
 }) => {
   const { taskId } = await params;
   const userId = await getUserId();

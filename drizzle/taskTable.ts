@@ -11,13 +11,15 @@ export const insertNewTask = async (task: TaskTableInsertType) => {
 };
 
 export const getSingleTask = async (
-  taskId: number,
+  taskUserId: string,
   userId: number
 ): Promise<TaskTableType[]> => {
   return db
     .select()
     .from(taskTable)
-    .where(and(eq(taskTable.id, taskId), eq(taskTable.userId, userId)));
+    .where(
+      and(eq(taskTable.taskUserId, taskUserId), eq(taskTable.userId, userId))
+    );
 };
 
 export const getTasksForUser = async (
@@ -30,6 +32,18 @@ export const completeTask = async (taskId: number, userId: number) => {
   return db
     .update(taskTable)
     .set({ status: "completed", completedAt: new Date() })
+    .where(and(eq(taskTable.id, taskId), eq(taskTable.userId, userId)))
+    .returning({ taskId: taskTable.id });
+};
+
+export const updateTaskDescription = async (
+  taskId: number,
+  userId: number,
+  description: string
+) => {
+  return db
+    .update(taskTable)
+    .set({ description: description })
     .where(and(eq(taskTable.id, taskId), eq(taskTable.userId, userId)))
     .returning({ taskId: taskTable.id });
 };

@@ -83,8 +83,6 @@ export function TaskDataTable<TData, TValue>({
     },
   });
 
-  console.log(columnVisibility);
-
   const priorities = [
     {
       label: "Low",
