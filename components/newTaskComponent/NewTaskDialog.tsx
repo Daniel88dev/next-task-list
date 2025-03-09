@@ -38,6 +38,7 @@ import {
   submitNewTask,
 } from "@/components/newTaskComponent/newTaskAction";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type NewTaskProps = {
   type: "NEW";
@@ -59,18 +60,29 @@ type State = {
 };
 
 const NewTaskDialog = (props: Props) => {
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState<State>({
-    priority: "medium",
-    status: "todo",
-    targetDate: null,
+  const router = useRouter();
+  const [open, setOpen] = useState(() => {
+    return props.type === "EDIT";
   });
+  const [data, setData] = useState<State>(() => {
+    let priority: string = "medium";
+    let status: string = "todo";
+    let targetDate: Date | null = null;
 
-  if (props.type === "EDIT") {
-    console.log("This is edit task for task id: " + props.taskData!.id);
-  } else {
-    console.log("This is new task");
-  }
+    if (props.type === "EDIT" && props.taskData) {
+      priority = props.taskData.priority!;
+      status = props.taskData.status!;
+      targetDate = props.taskData.dueDate
+        ? new Date(props.taskData.dueDate)
+        : null;
+    }
+
+    return {
+      priority: priority,
+      status: status,
+      targetDate: targetDate,
+    };
+  });
 
   const [newTaskFormState, newTaskFormAction] = useActionState(submitNewTask, {
     type: props.type,
@@ -130,11 +142,22 @@ const NewTaskDialog = (props: Props) => {
     });
   };
 
+  const onCloseDialog = (status: boolean) => {
+    if (props.type === "NEW") {
+      setOpen(status);
+    } else {
+      router.push("/tasks");
+      setOpen(status);
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>{props.taskButton}</Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onCloseDialog}>
+      {props.type === "NEW" && (
+        <DialogTrigger asChild>
+          <Button onClick={() => setOpen(true)}>{props.taskButton}</Button>
+        </DialogTrigger>
+      )}
       <DialogContent>
         <DialogHeader>
           <DialogTitle className={"text-2xl"}>Create New Task</DialogTitle>
@@ -150,13 +173,23 @@ const NewTaskDialog = (props: Props) => {
               type={"text"}
               maxLength={50}
               minLength={5}
+              defaultValue={props.type === "EDIT" ? props.taskData!.title : ""}
             />
           </div>
           <div className={"py-4"}>
             <Label htmlFor={"taskDescription"} className={"text-lg"}>
               Description:
             </Label>
-            <Textarea id={"taskDescription"} name={"taskDescription"} />
+            <Textarea
+              id={"taskDescription"}
+              name={"taskDescription"}
+              defaultValue={
+                props.type === "EDIT" && props.taskData?.description
+                  ? props.taskData.description
+                  : ""
+              }
+              rows={5}
+            />
           </div>
           <div className={"py-4"}>
             <Label htmlFor={"taskPriority"} className={"text-lg"}>
@@ -262,7 +295,6 @@ const NewTaskDialog = (props: Props) => {
                   mode="single"
                   selected={data.targetDate ?? new Date()}
                   onSelect={onDateSet}
-                  initialFocus
                   required={false}
                 />
               </PopoverContent>

@@ -311,8 +311,12 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
                 Edit Comment
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Edit Task</DropdownMenuItem>
-            <DropdownMenuItem>Change Due Date</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/tasks/${task.taskUserId}/edit`}>Edit Task</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => alert("Not finished")}>
+              Change Due Date
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

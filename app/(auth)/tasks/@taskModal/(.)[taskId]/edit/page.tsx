@@ -2,9 +2,9 @@
 
 import { getUserId } from "@/drizzle/user";
 import { getSingleTask } from "@/drizzle/taskTable";
-import EditTaskDescription from "@/app/(auth)/tasks/[taskId]/comment/EditTaskDescription";
+import NewTaskDialog from "@/components/newTaskComponent/NewTaskDialog";
 
-const EditTaskDescriptionPage = async ({
+const EditTaskPageIntercepted = async ({
   params,
 }: {
   params: Promise<{ taskId: string }>;
@@ -15,10 +15,10 @@ const EditTaskDescriptionPage = async ({
   const taskData = await getSingleTask(taskId, userId);
 
   if (taskData.length === 0) {
-    return <h1>Task not found</h1>;
+    throw new Error("Task not found");
   }
 
-  return <EditTaskDescription task={taskData[0]} />;
+  return <NewTaskDialog type={"EDIT"} taskButton={""} taskData={taskData[0]} />;
 };
 
-export default EditTaskDescriptionPage;
+export default EditTaskPageIntercepted;
