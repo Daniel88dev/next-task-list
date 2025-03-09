@@ -29,7 +29,7 @@ export const getTasksForUser = async (
 export const completeTask = async (taskId: number, userId: number) => {
   return db
     .update(taskTable)
-    .set({ status: "completed" })
+    .set({ status: "completed", completedAt: new Date() })
     .where(and(eq(taskTable.id, taskId), eq(taskTable.userId, userId)))
     .returning({ taskId: taskTable.id });
 };

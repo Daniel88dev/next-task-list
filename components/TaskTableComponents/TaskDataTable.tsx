@@ -58,7 +58,10 @@ export function TaskDataTable<TData, TValue>({
       value: ["todo", "in_progress"],
     },
   ]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    completedAt: false,
+    createdAt: false,
+  });
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -80,7 +83,7 @@ export function TaskDataTable<TData, TValue>({
     },
   });
 
-  console.log(columnFilters);
+  console.log(columnVisibility);
 
   const priorities = [
     {

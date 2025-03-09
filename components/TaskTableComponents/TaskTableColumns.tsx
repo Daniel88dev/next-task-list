@@ -147,6 +147,30 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
         </div>
       );
     },
+    filterFn: (row, columnId, filterValues) => {
+      if (!filterValues || filterValues.length === 0) return true; // No filter applied, show all rows
+      return filterValues.includes(row.getValue(columnId));
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Created At
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const date: Date = row.getValue("createdAt");
+      const dateString = format(date, "PPP");
+
+      return <div className="text-left font-medium">{dateString}</div>;
+    },
   },
   {
     accessorKey: "dueDate",
@@ -163,6 +187,26 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
     },
     cell: ({ row }) => {
       const date: Date | null = row.getValue("dueDate");
+      const dateString = date ? format(date, "PPP") : "";
+
+      return <div className="text-left font-medium">{dateString}</div>;
+    },
+  },
+  {
+    accessorKey: "completedAt",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Completed At
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const date: Date | null = row.getValue("completedAt");
       const dateString = date ? format(date, "PPP") : "";
 
       return <div className="text-left font-medium">{dateString}</div>;
