@@ -52,7 +52,12 @@ export function TaskDataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([
     { desc: false, id: "taskUserId" },
   ]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
+    {
+      id: "status",
+      value: ["todo", "in_progress"],
+    },
+  ]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
@@ -75,7 +80,7 @@ export function TaskDataTable<TData, TValue>({
     },
   });
 
-  console.log(sorting);
+  console.log(columnFilters);
 
   const priorities = [
     {

@@ -25,7 +25,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import { testFunction } from "@/app/(auth)/tasks/test";
+import { finishTask } from "@/app/(auth)/tasks/taskActions";
+import { toast } from "sonner";
 
 export const taskTableColumns: ColumnDef<TaskTableType>[] = [
   {
@@ -212,6 +213,10 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
         </div>
       );
     },
+    filterFn: (row, columnId, filterValues) => {
+      if (!filterValues || filterValues.length === 0) return true; // No filter applied, show all rows
+      return filterValues.includes(row.getValue(columnId)); // Match any of the selected statuses
+    },
   },
   {
     id: "actions",
@@ -244,7 +249,14 @@ export const taskTableColumns: ColumnDef<TaskTableType>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={async () => {
-                await testFunction();
+                const status = await finishTask(task.id);
+                if (!status) {
+                  toast.error("Failed to finish task", {
+                    style: { backgroundColor: "red" },
+                  });
+                } else {
+                  toast.success("Task closed");
+                }
               }}
             >
               Finish Task
