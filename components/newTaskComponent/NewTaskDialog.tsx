@@ -49,6 +49,7 @@ type EditTaskProps = {
   type: "EDIT";
   taskData?: TaskTableType;
   taskButton: string;
+  taskId?: string;
 };
 
 type Props = NewTaskProps | EditTaskProps;
@@ -88,6 +89,7 @@ const NewTaskDialog = (props: Props) => {
     type: props.type,
     success: false,
     errors: null,
+    taskId: props.type === "EDIT" ? props.taskId : null,
   } as NewTaskActionType);
 
   useEffect(() => {
@@ -96,14 +98,20 @@ const NewTaskDialog = (props: Props) => {
         style: { background: "red" },
       });
     } else if (newTaskFormState.success && open) {
-      toast.success("New task created successfully");
-      setData({
-        priority: "medium",
-        status: "todo",
-        targetDate: null,
-      });
-      newTaskFormState.success = false;
-      setOpen(false);
+      if (props.type === "NEW") {
+        setData({
+          priority: "medium",
+          status: "todo",
+          targetDate: null,
+        });
+        newTaskFormState.success = false;
+        toast.success("New task created successfully");
+        setOpen(false);
+      } else {
+        toast.success("Task updated successfully");
+        setOpen(false);
+        router.push("/tasks");
+      }
     }
   }, [newTaskFormState, open]);
 

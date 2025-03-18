@@ -10,6 +10,18 @@ export const insertNewTask = async (task: TaskTableInsertType) => {
   return db.insert(taskTable).values(task).returning({ taskId: taskTable.id });
 };
 
+export const updateTask = async (
+  task: TaskTableInsertType
+): Promise<{ taskId: number; taskUserId: string | null }> => {
+  const update = await db
+    .update(taskTable)
+    .set(task)
+    .where(eq(taskTable.taskUserId, task.taskUserId!))
+    .returning({ taskId: taskTable.id, taskUserId: taskTable.taskUserId });
+
+  return update[0];
+};
+
 export const getSingleTask = async (
   taskUserId: string,
   userId: number

@@ -18,7 +18,14 @@ const EditTaskPage = async ({
     throw new Error("Task not found");
   }
 
-  return <NewTaskDialog type={"EDIT"} taskButton={""} taskData={taskData[0]} />;
+  return (
+    <NewTaskDialog
+      type={"EDIT"}
+      taskButton={""}
+      taskData={taskData[0]}
+      taskId={taskId}
+    />
+  );
 };
 
 export default EditTaskPage;
