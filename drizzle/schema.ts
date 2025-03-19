@@ -82,3 +82,15 @@ export const taskTable = pgTable(
     };
   }
 );
+
+export const shoppingListTable = pgTable("shopping_list_table", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => usersTable.id),
+  category: varchar("category", { length: 50 }),
+  title: varchar("title", { length: 100 }).notNull(),
+  isOpen: boolean("is_open").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  completedAt: timestamp("completed_at"),
+});
