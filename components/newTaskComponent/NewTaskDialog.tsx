@@ -166,7 +166,7 @@ const NewTaskDialog = (props: Props) => {
           <Button onClick={() => setOpen(true)}>{props.taskButton}</Button>
         </DialogTrigger>
       )}
-      <DialogContent>
+      <DialogContent className={"w-[750px] max-w-[750px]"}>
         <DialogHeader>
           <DialogTitle className={"text-2xl"}>Create New Task</DialogTitle>
         </DialogHeader>
@@ -198,86 +198,6 @@ const NewTaskDialog = (props: Props) => {
               }
               rows={5}
             />
-          </div>
-          <div className={"py-4"}>
-            <Label htmlFor={"taskPriority"} className={"text-lg"}>
-              Priority:
-            </Label>
-            <TooltipProvider>
-              <RadioGroup
-                className={"grid grid-cols-4 gap-2 w-48"}
-                id={"taskPriority"}
-                defaultValue={data.priority}
-                onValueChange={onPriorityChange}
-              >
-                <RadioItemWithTooltip
-                  key={"r1"}
-                  radioId={"r1"}
-                  radioValue={"low"}
-                  toolTipText={"Low"}
-                  labelClassName={"p-0 h-8 py-2"}
-                >
-                  <ChevronDown size={16} />
-                </RadioItemWithTooltip>
-                <RadioItemWithTooltip
-                  key={"r2"}
-                  radioId={"r2"}
-                  radioValue={"medium"}
-                  toolTipText={"Medium"}
-                  labelClassName={"p-0 h-8 py-2"}
-                >
-                  <Minus size={16} />
-                </RadioItemWithTooltip>
-                <RadioItemWithTooltip
-                  key={"r3"}
-                  radioId={"r3"}
-                  radioValue={"high"}
-                  toolTipText={"High"}
-                  labelClassName={"p-0 h-8 py-2"}
-                >
-                  <ChevronUp size={16} />
-                </RadioItemWithTooltip>
-                <RadioItemWithTooltip
-                  key={"r4"}
-                  radioId={"r4"}
-                  radioValue={"urgent"}
-                  toolTipText={"Urgent"}
-                  labelClassName={"p-0 text-red-500 h-8 py-2"}
-                >
-                  <ShieldAlert size={16} />
-                </RadioItemWithTooltip>
-              </RadioGroup>
-            </TooltipProvider>
-          </div>
-          <div className={"py-4"}>
-            <Label htmlFor={"taskStatus"} className={"text-lg"}>
-              Status:
-            </Label>
-            <TooltipProvider>
-              <RadioGroup
-                className={"grid grid-cols-4 gap-2 w-48"}
-                id={"taskStatus"}
-                defaultValue={data.status}
-                onValueChange={onStatusChange}
-              >
-                <RadioItemWithTooltip
-                  radioId={"s1"}
-                  radioValue={"todo"}
-                  toolTipText={"To Do"}
-                  labelClassName={"p-0 h-8 py-2"}
-                >
-                  <ListTodo size={16} />
-                </RadioItemWithTooltip>
-                <RadioItemWithTooltip
-                  radioId={"s2"}
-                  radioValue={"in_progress"}
-                  toolTipText={"In Progress"}
-                  labelClassName={"p-0 h-8 py-2"}
-                >
-                  <Ellipsis size={16} />
-                </RadioItemWithTooltip>
-              </RadioGroup>
-            </TooltipProvider>
           </div>
           <div className={"py-4"}>
             <Label className={"text-lg"}>Finish Date:</Label>
@@ -329,7 +249,91 @@ const NewTaskDialog = (props: Props) => {
                 </li>
               ))}
           </ul>
-          <DialogFooter>
+          <DialogFooter
+            className={"flex items-center justify-between sm:justify-between"}
+          >
+            <div className={"flex gap-4"}>
+              <div className={"py-4"}>
+                <Label htmlFor={"taskPriority"} className={"text-lg"}>
+                  Priority:
+                </Label>
+                <TooltipProvider>
+                  <RadioGroup
+                    className={"grid grid-cols-4 gap-2 w-48"}
+                    id={"taskPriority"}
+                    defaultValue={data.priority}
+                    onValueChange={onPriorityChange}
+                  >
+                    <RadioItemWithTooltip
+                      key={"r1"}
+                      radioId={"r1"}
+                      radioValue={"low"}
+                      toolTipText={"Low"}
+                      labelClassName={"p-0 h-8 py-2"}
+                    >
+                      <ChevronDown size={16} />
+                    </RadioItemWithTooltip>
+                    <RadioItemWithTooltip
+                      key={"r2"}
+                      radioId={"r2"}
+                      radioValue={"medium"}
+                      toolTipText={"Medium"}
+                      labelClassName={"p-0 h-8 py-2"}
+                    >
+                      <Minus size={16} />
+                    </RadioItemWithTooltip>
+                    <RadioItemWithTooltip
+                      key={"r3"}
+                      radioId={"r3"}
+                      radioValue={"high"}
+                      toolTipText={"High"}
+                      labelClassName={"p-0 h-8 py-2"}
+                    >
+                      <ChevronUp size={16} />
+                    </RadioItemWithTooltip>
+                    <RadioItemWithTooltip
+                      key={"r4"}
+                      radioId={"r4"}
+                      radioValue={"urgent"}
+                      toolTipText={"Urgent"}
+                      labelClassName={"p-0 text-red-500 h-8 py-2"}
+                    >
+                      <ShieldAlert size={16} />
+                    </RadioItemWithTooltip>
+                  </RadioGroup>
+                </TooltipProvider>
+              </div>
+              <div className={"py-4"}>
+                <Label htmlFor={"taskStatus"} className={"text-lg"}>
+                  Status:
+                </Label>
+                <TooltipProvider>
+                  <RadioGroup
+                    className={"grid grid-cols-4 gap-2 w-48"}
+                    id={"taskStatus"}
+                    defaultValue={data.status}
+                    onValueChange={onStatusChange}
+                  >
+                    <RadioItemWithTooltip
+                      radioId={"s1"}
+                      radioValue={"todo"}
+                      toolTipText={"To Do"}
+                      labelClassName={"p-0 h-8 py-2"}
+                    >
+                      <ListTodo size={16} />
+                    </RadioItemWithTooltip>
+                    <RadioItemWithTooltip
+                      radioId={"s2"}
+                      radioValue={"in_progress"}
+                      toolTipText={"In Progress"}
+                      labelClassName={"p-0 h-8 py-2"}
+                    >
+                      <Ellipsis size={16} />
+                    </RadioItemWithTooltip>
+                  </RadioGroup>
+                </TooltipProvider>
+              </div>
+            </div>
             <Button type={"submit"}>Submit</Button>
           </DialogFooter>
         </form>
