@@ -5,6 +5,7 @@ import { tryCatch } from "@/lib/try-catch";
 import { getShoppingListForUser } from "@/drizzle/shoppingList";
 import { notFound } from "next/navigation";
 import ShoppingListTable from "@/app/(auth)/shopping/_components/ShoppingListTable";
+import NewShoppingItem from "@/app/(auth)/shopping/_components/NewShoppingItem";
 
 const ShoppingPage = async () => {
   const { data: userId, error: userError } = await tryCatch(getUserId());
@@ -23,6 +24,7 @@ const ShoppingPage = async () => {
 
   return (
     <div className="container mx-auto py-10">
+      <NewShoppingItem />
       <ShoppingListTable items={shoppingList} />
     </div>
   );
