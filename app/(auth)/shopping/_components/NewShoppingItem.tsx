@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { ReactNode, useActionState } from "react";
+import { ReactNode, useActionState, useEffect } from "react";
 import { Apple, Box, WashingMachine } from "lucide-react";
 import {
   Select,
@@ -16,6 +16,7 @@ import {
   NewShoppingItemType,
   submitNewShoppingItem,
 } from "@/app/(auth)/shopping/shoppingActions";
+import { toast } from "sonner";
 
 type CategoryType = {
   name: string;
@@ -36,8 +37,8 @@ const NewShoppingItem = () => {
       icon: <Apple />,
     },
     {
-      name: "electronic",
-      label: "Electronic",
+      name: "electronics",
+      label: "Electronics",
       icon: <WashingMachine />,
     },
   ];
@@ -50,10 +51,18 @@ const NewShoppingItem = () => {
     } as NewShoppingItemType
   );
 
-  console.log(newShoppingItemState);
+  useEffect(() => {
+    if (!!newShoppingItemState.errors) {
+      toast.error("Error to submit new Shopping item.", {
+        style: { background: "red" },
+      });
+    } else if (newShoppingItemState.success) {
+      toast.success("New Shopping item added successfully.");
+    }
+  }, [newShoppingItemState]);
 
   return (
-    <form action={newShoppingItemAction}>
+    <form action={newShoppingItemAction} className="pb-4">
       <Label>Add New item to shopping list</Label>
       <div className="flex items-center gap-4">
         <Input
@@ -78,6 +87,14 @@ const NewShoppingItem = () => {
         </Select>
         <Button type={"submit"}>Add</Button>
       </div>
+      <ul>
+        {newShoppingItemState.errors &&
+          Object.keys(newShoppingItemState.errors).map((error) => (
+            <li key={`errorShoppingItem-${error}`} className={"text-red-500"}>
+              {newShoppingItemState.errors![error]}
+            </li>
+          ))}
+      </ul>
     </form>
   );
 };
