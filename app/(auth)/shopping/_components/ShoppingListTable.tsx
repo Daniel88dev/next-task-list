@@ -17,18 +17,18 @@ const ShoppingListTable = ({ items }: Props) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Category</TableHead>
+          <TableHead>Created At</TableHead>
           <TableHead>Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {items.map((item) => (
           <TableRow key={`shoppingItem-${item.id}`}>
-            <TableCell>{item.id}</TableCell>
             <TableCell>{item.title}</TableCell>
             <TableCell>{item.category}</TableCell>
+            <TableCell></TableCell>
             <TableCell>TO_DO</TableCell>
           </TableRow>
         ))}
