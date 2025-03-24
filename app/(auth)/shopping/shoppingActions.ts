@@ -4,6 +4,7 @@ import { tryCatch } from "@/lib/try-catch";
 import { getUserId } from "@/drizzle/user";
 import {
   insertToShoppingList,
+  putPurchaseShoppingItem,
   ShoppingListInsertType,
 } from "@/drizzle/shoppingList";
 import { revalidatePath } from "next/cache";
@@ -92,4 +93,26 @@ export const submitNewShoppingItem = async (
     success: true,
     errors: null,
   };
+};
+
+export const onPurchaseShoppingItem = async (shoppingItemId: number) => {
+  const { data: userId, error: userError } = await tryCatch(getUserId());
+
+  if (userError) {
+    console.error(userError);
+    return { success: false, message: "User not found" };
+  }
+
+  const { data: updatedRecord, error: dbError } = await tryCatch(
+    putPurchaseShoppingItem(shoppingItemId, userId)
+  );
+
+  if (dbError || updatedRecord[0].updatedId !== shoppingItemId) {
+    console.error(dbError);
+    return { success: false, message: "Server error" };
+  }
+
+  revalidatePath("/shopping");
+
+  return { success: true, message: "Item successfully purchased" };
 };

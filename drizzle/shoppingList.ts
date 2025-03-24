@@ -35,3 +35,19 @@ export const getShoppingListQtyForUser = async (userId: number) => {
       )
     );
 };
+
+export const putPurchaseShoppingItem = async (
+  shoppingItemId: number,
+  userId: number
+) => {
+  return db
+    .update(shoppingListTable)
+    .set({ isOpen: false, completedAt: new Date() })
+    .where(
+      and(
+        eq(shoppingListTable.id, shoppingItemId),
+        eq(shoppingListTable.userId, userId)
+      )
+    )
+    .returning({ updatedId: shoppingListTable.id });
+};

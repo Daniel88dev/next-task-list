@@ -3,8 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { ReactNode, useActionState, useEffect } from "react";
-import { Apple, Box, WashingMachine } from "lucide-react";
+import { useActionState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -17,32 +16,9 @@ import {
   submitNewShoppingItem,
 } from "@/app/(auth)/shopping/shoppingActions";
 import { toast } from "sonner";
-
-type CategoryType = {
-  name: string;
-  label: string;
-  icon: ReactNode;
-};
+import { categoryList } from "@/app/(auth)/shopping/_components/categoryTypes";
 
 const NewShoppingItem = () => {
-  const categoryList: CategoryType[] = [
-    {
-      name: "basic",
-      label: "Basic",
-      icon: <Box />,
-    },
-    {
-      name: "food",
-      label: "Food",
-      icon: <Apple />,
-    },
-    {
-      name: "electronics",
-      label: "Electronics",
-      icon: <WashingMachine />,
-    },
-  ];
-
   const [newShoppingItemState, newShoppingItemAction] = useActionState(
     submitNewShoppingItem,
     {
