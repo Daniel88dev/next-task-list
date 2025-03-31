@@ -197,6 +197,7 @@ export function TaskDataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={"even:bg-primary-foreground"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
