@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useCallback, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -23,10 +23,13 @@ const EditTaskDescriptionDialog = ({ task }: { task: TaskTableType }) => {
   const router = useRouter();
   const [open, setOpen] = useState(true);
 
-  const handleClose = (value: boolean) => {
-    setOpen(value);
-    router.back();
-  };
+  const handleClose = useCallback(
+    (value: boolean) => {
+      setOpen(value);
+      router.back();
+    },
+    [setOpen, router]
+  );
 
   const [editDescriptionState, editDescriptionFormAction] = useActionState(
     editTaskComment,
@@ -48,7 +51,7 @@ const EditTaskDescriptionDialog = ({ task }: { task: TaskTableType }) => {
       );
       handleClose(false);
     }
-  }, [editDescriptionState]);
+  }, [editDescriptionState, open, task.taskUserId, handleClose]);
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>

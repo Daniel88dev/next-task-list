@@ -113,7 +113,7 @@ const NewTaskDialog = (props: Props) => {
         router.push("/tasks");
       }
     }
-  }, [newTaskFormState, open]);
+  }, [newTaskFormState, open, props.type, router]);
 
   const onDateSet = (date: Date | undefined) => {
     if (date) {

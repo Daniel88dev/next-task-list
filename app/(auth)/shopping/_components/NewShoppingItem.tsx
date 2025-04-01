@@ -46,7 +46,14 @@ const NewShoppingItem = () => {
   }, [newShoppingItemState]);
 
   return (
-    <form action={newShoppingItemAction} className="pb-4">
+    <form
+      action={newShoppingItemAction}
+      className="pb-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        form.handleSubmit();
+      }}
+    >
       <div className={"flex items-end gap-4"}>
         <form.Field
           name={"shoppingItemName"}

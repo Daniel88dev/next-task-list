@@ -42,7 +42,7 @@ const EditTaskDescription = ({ task }: { task: TaskTableType }) => {
       );
       navigate.push("/tasks");
     }
-  }, [editDescriptionState]);
+  }, [editDescriptionState, navigate, task.taskUserId]);
 
   return (
     <Card className={"w-[700px] mx-auto"}>
