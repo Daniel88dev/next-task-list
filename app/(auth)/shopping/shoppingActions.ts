@@ -21,6 +21,8 @@ export const submitNewShoppingItem = async (
   const shoppingItemName = formData.get("shoppingItemName") as string;
   const category = formData.get("category") as string;
 
+  console.log(formData);
+
   const errors: string[] = [];
 
   const { data: userId, error: userError } = await tryCatch(getUserId());

@@ -17,7 +17,7 @@ import {
 } from "@/app/(auth)/shopping/shoppingActions";
 import { toast } from "sonner";
 import { categoryList } from "@/app/(auth)/shopping/_components/categoryTypes";
-import { mergeForm, useForm, useTransform } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { Card } from "@/components/ui/card";
 
 const NewShoppingItem = () => {
@@ -32,10 +32,6 @@ const NewShoppingItem = () => {
       shoppingItemName: "",
       category: "basic",
     },
-    transform: useTransform(
-      (baseForm) => mergeForm(baseForm, newShoppingItemState ?? {}),
-      [newShoppingItemState]
-    ),
   });
 
   useEffect(() => {
