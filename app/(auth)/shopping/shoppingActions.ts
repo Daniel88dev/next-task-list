@@ -11,9 +11,7 @@ import { revalidatePath } from "next/cache";
 
 export type NewShoppingItemType = {
   success: boolean;
-  errors: null | {
-    [key: string]: string | undefined;
-  };
+  errors: string[];
 };
 
 export const submitNewShoppingItem = async (
@@ -23,18 +21,13 @@ export const submitNewShoppingItem = async (
   const shoppingItemName = formData.get("shoppingItemName") as string;
   const category = formData.get("category") as string;
 
-  const errors: {
-    user?: string;
-    title?: string;
-    category?: string;
-    server?: string;
-  } = {};
+  const errors: string[] = [];
 
   const { data: userId, error: userError } = await tryCatch(getUserId());
 
   if (userError) {
     console.error(userError);
-    errors.user = "User not found";
+    errors.push("User not found");
   }
 
   if (
@@ -43,7 +36,7 @@ export const submitNewShoppingItem = async (
     shoppingItemName.length > 50
   ) {
     console.error("Shopping Title Error");
-    errors.title = "Shopping item name must be between 1 and 50 characters";
+    errors.push("Shopping item name must be between 1 and 50 characters");
   }
 
   if (
@@ -51,13 +44,13 @@ export const submitNewShoppingItem = async (
     (category !== "basic" && category !== "food" && category !== "electronics")
   ) {
     console.error("Category Error");
-    errors.category =
-      "Category must be one of the following: basic, food, electronics";
+    errors.push(
+      "Category must be one of the following: basic, food, electronics"
+    );
   }
 
-  if (Object.keys(errors).length > 0) {
+  if (errors.length > 0) {
     return {
-      ...prevState,
       success: false,
       errors,
     };
@@ -75,12 +68,11 @@ export const submitNewShoppingItem = async (
 
   if (dbError || !result || isNaN(result[0].id)) {
     console.error(dbError);
-    errors.server = "Server error";
+    errors.push("Server error");
   }
 
-  if (Object.keys(errors).length > 0) {
+  if (errors.length > 0) {
     return {
-      ...prevState,
       success: false,
       errors,
     };
@@ -89,9 +81,8 @@ export const submitNewShoppingItem = async (
   revalidatePath("/shopping");
 
   return {
-    ...prevState,
     success: true,
-    errors: null,
+    errors: [],
   };
 };
 

@@ -17,31 +17,34 @@ import {
 } from "@/app/(auth)/shopping/shoppingActions";
 import { toast } from "sonner";
 import { categoryList } from "@/app/(auth)/shopping/_components/categoryTypes";
-import { useForm } from "@tanstack/react-form";
+import { mergeForm, useForm, useTransform } from "@tanstack/react-form";
 import { Card } from "@/components/ui/card";
 
 const NewShoppingItem = () => {
-  const [newShoppingItemState, newShoppingItemAction] = useActionState(
-    submitNewShoppingItem,
-    {
+  const [newShoppingItemState, newShoppingItemAction, isPending] =
+    useActionState(submitNewShoppingItem, {
       success: false,
-      errors: null,
-    } as NewShoppingItemType
-  );
+      errors: [],
+    } as NewShoppingItemType);
 
   const form = useForm({
     defaultValues: {
       shoppingItemName: "",
       category: "basic",
     },
+    transform: useTransform(
+      (baseForm) => mergeForm(baseForm, newShoppingItemState ?? {}),
+      [newShoppingItemState]
+    ),
   });
 
   useEffect(() => {
-    if (!!newShoppingItemState.errors) {
+    if (newShoppingItemState.errors.length > 0) {
       toast.error("Error to submit new Shopping item.", {
         style: { background: "red" },
       });
     } else if (newShoppingItemState.success) {
+      form.reset();
       toast.success("New Shopping item added successfully.");
     }
   }, [newShoppingItemState]);
@@ -51,8 +54,7 @@ const NewShoppingItem = () => {
       action={newShoppingItemAction}
       className="pb-4"
       onSubmit={async (e) => {
-        const result = await form.handleSubmit(e);
-        console.log(result);
+        await form.handleSubmit(e);
       }}
     >
       <Card className={"flex items-end gap-4 content-start w-full"}>
@@ -121,17 +123,17 @@ const NewShoppingItem = () => {
           )}
         </form.Field>
         <div className={"flex flex-col h-24 content-start pt-2"}>
-          <Button type={"submit"} className={"h-8"}>
+          <Button type={"submit"} className={"h-8"} disabled={isPending}>
             Add
           </Button>
         </div>
       </Card>
 
       <ul>
-        {newShoppingItemState.errors &&
-          Object.keys(newShoppingItemState.errors).map((error) => (
+        {newShoppingItemState.errors.length > 0 &&
+          newShoppingItemState.errors.map((error) => (
             <li key={`errorShoppingItem-${error}`} className={"text-red-500"}>
-              {newShoppingItemState.errors![error]}
+              {error}
             </li>
           ))}
       </ul>
