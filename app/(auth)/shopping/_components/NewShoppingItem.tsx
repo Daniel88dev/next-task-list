@@ -21,13 +21,6 @@ import { useForm } from "@tanstack/react-form";
 import { Card } from "@/components/ui/card";
 
 const NewShoppingItem = () => {
-  const form = useForm({
-    defaultValues: {
-      shoppingItemName: "",
-      category: "basic",
-    },
-  });
-
   const [newShoppingItemState, newShoppingItemAction] = useActionState(
     submitNewShoppingItem,
     {
@@ -35,6 +28,13 @@ const NewShoppingItem = () => {
       errors: null,
     } as NewShoppingItemType
   );
+
+  const form = useForm({
+    defaultValues: {
+      shoppingItemName: "",
+      category: "basic",
+    },
+  });
 
   useEffect(() => {
     if (!!newShoppingItemState.errors) {
@@ -50,12 +50,12 @@ const NewShoppingItem = () => {
     <form
       action={newShoppingItemAction}
       className="pb-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        form.handleSubmit();
+      onSubmit={async (e) => {
+        const result = await form.handleSubmit(e);
+        console.log(result);
       }}
     >
-      <Card className={"flex items-end gap-4 content-start"}>
+      <Card className={"flex items-end gap-4 content-start w-full"}>
         <form.Field
           name={"shoppingItemName"}
           validators={{
@@ -67,7 +67,7 @@ const NewShoppingItem = () => {
           }}
         >
           {(field) => (
-            <div className={"flex flex-col mb-4 h-28 w-84 p-2"}>
+            <div className={"flex flex-col mb-4 h-24 min-w-84 w-auto w-84 p-2"}>
               <Label htmlFor={field.name}>Add New item to shopping list:</Label>
               <Input
                 id={field.name}
@@ -76,6 +76,7 @@ const NewShoppingItem = () => {
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="New shopping item"
+                className={"w-80"}
               />
               {field.state.meta.errors ? (
                 <em role="alert" className={"text-red-500"}>
@@ -95,7 +96,7 @@ const NewShoppingItem = () => {
           }}
         >
           {(field) => (
-            <div className={"flex flex-col mb-4 h-28 p-2"}>
+            <div className={"flex flex-col mb-4 h-24 p-2"}>
               <Label htmlFor={field.name}>Type:</Label>
               <Select
                 defaultValue={field.state.value}
@@ -119,7 +120,7 @@ const NewShoppingItem = () => {
             </div>
           )}
         </form.Field>
-        <div className={"flex flex-col h-28 content-start pt-2"}>
+        <div className={"flex flex-col h-24 content-start pt-2"}>
           <Button type={"submit"} className={"h-8"}>
             Add
           </Button>
