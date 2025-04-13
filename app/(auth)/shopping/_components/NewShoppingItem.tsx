@@ -18,6 +18,7 @@ import {
 import { toast } from "sonner";
 import { categoryList } from "@/app/(auth)/shopping/_components/categoryTypes";
 import { useForm } from "@tanstack/react-form";
+import { Card } from "@/components/ui/card";
 
 const NewShoppingItem = () => {
   const form = useForm({
@@ -54,7 +55,7 @@ const NewShoppingItem = () => {
         form.handleSubmit();
       }}
     >
-      <div className={"flex items-end gap-4"}>
+      <Card className={"flex items-end gap-4 content-start"}>
         <form.Field
           name={"shoppingItemName"}
           validators={{
@@ -66,8 +67,8 @@ const NewShoppingItem = () => {
           }}
         >
           {(field) => (
-            <div className={"flex flex-col mb-4"}>
-              <Label htmlFor={field.name}>Add New item to shopping list</Label>
+            <div className={"flex flex-col mb-4 h-28 w-84 p-2"}>
+              <Label htmlFor={field.name}>Add New item to shopping list:</Label>
               <Input
                 id={field.name}
                 name={field.name}
@@ -94,7 +95,8 @@ const NewShoppingItem = () => {
           }}
         >
           {(field) => (
-            <div className={"mb-4"}>
+            <div className={"flex flex-col mb-4 h-28 p-2"}>
+              <Label htmlFor={field.name}>Type:</Label>
               <Select
                 defaultValue={field.state.value}
                 onValueChange={(e) => field.handleChange(e)}
@@ -117,10 +119,13 @@ const NewShoppingItem = () => {
             </div>
           )}
         </form.Field>
-      </div>
-      <div className="flex items-center gap-4">
-        <Button type={"submit"}>Add</Button>
-      </div>
+        <div className={"flex flex-col h-28 content-start pt-2"}>
+          <Button type={"submit"} className={"h-8"}>
+            Add
+          </Button>
+        </div>
+      </Card>
+
       <ul>
         {newShoppingItemState.errors &&
           Object.keys(newShoppingItemState.errors).map((error) => (
