@@ -21,6 +21,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { ReactNode } from "react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -28,7 +29,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   options: {
     label: string;
     value: string;
-    icon?: React.ComponentType<{ className?: string }>;
+    icon?: ReactNode;
   }[];
 }
 
@@ -115,7 +116,9 @@ export function DataTableFacetedFilter<TData, TValue>({
                       <Check />
                     </div>
                     {option.icon && (
-                      <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+                      <span className="mr-2 h-4 w-4 text-muted-foreground">
+                        {option.icon}
+                      </span>
                     )}
                     <span>{option.label}</span>
                     {facets?.get(option.value) && (

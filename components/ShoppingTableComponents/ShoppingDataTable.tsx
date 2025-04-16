@@ -18,6 +18,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DataTableFacetedFilter } from "@/components/TaskTableComponents/DataTableFacetedFilter";
+import { categoryList } from "@/app/(auth)/shopping/_components/categoryTypes";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,6 +49,14 @@ export function ShoppingDataTable<TData, TValue>({
     },
   });
 
+  const formattedCategoryList = categoryList.map((category) => {
+    return {
+      label: category.name,
+      value: category.name,
+      icon: category.icon,
+    };
+  });
+
   return (
     <div>
       <div className="flex items-center py-4 gap-2">
@@ -58,6 +68,13 @@ export function ShoppingDataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        {table.getColumn("category") && (
+          <DataTableFacetedFilter
+            options={formattedCategoryList}
+            column={table.getColumn("category")}
+            title="Category"
+          />
+        )}
       </div>
       <div className="rounded-md border">
         <Table>

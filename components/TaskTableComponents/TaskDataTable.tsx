@@ -87,36 +87,36 @@ export function TaskDataTable<TData, TValue>({
     {
       label: "Low",
       value: "low",
-      icon: ChevronDown,
+      icon: <ChevronDown />,
     },
     {
       label: "Medium",
       value: "medium",
-      icon: Minus,
+      icon: <Minus />,
     },
     {
       label: "High",
       value: "high",
-      icon: ChevronUp,
+      icon: <ChevronUp />,
     },
-    { label: "Urgent", value: "urgent", icon: ShieldAlert },
+    { label: "Urgent", value: "urgent", icon: <ShieldAlert /> },
   ];
 
   const status = [
     {
       label: "To Do",
       value: "todo",
-      icon: ListTodo,
+      icon: <ListTodo />,
     },
     {
       label: "In Progress",
       value: "in_progress",
-      icon: Ellipsis,
+      icon: <Ellipsis />,
     },
     {
       label: "Done",
       value: "completed",
-      icon: Check,
+      icon: <Check />,
     },
   ];
 
