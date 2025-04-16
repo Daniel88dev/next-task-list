@@ -4,6 +4,7 @@ import {
   ColumnDef,
   ColumnFiltersState,
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   SortingState,
 } from "@tanstack/table-core";
@@ -31,7 +32,9 @@ export function ShoppingDataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
+    { id: "isOpen", value: ["true"] },
+  ]);
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -41,6 +44,7 @@ export function ShoppingDataTable<TData, TValue>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
@@ -56,6 +60,11 @@ export function ShoppingDataTable<TData, TValue>({
       icon: category.icon,
     };
   });
+
+  const purchased = [
+    { label: "Purchased", value: "false" },
+    { label: "Not Purchased", value: "true" },
+  ];
 
   return (
     <div>
@@ -73,6 +82,13 @@ export function ShoppingDataTable<TData, TValue>({
             options={formattedCategoryList}
             column={table.getColumn("category")}
             title="Category"
+          />
+        )}
+        {table.getColumn("isOpen") && (
+          <DataTableFacetedFilter
+            options={purchased}
+            column={table.getColumn("isOpen")}
+            title="Purchased"
           />
         )}
       </div>

@@ -82,6 +82,7 @@ export const shoppingTableColumns: ColumnDef<ShoppingListItemType>[] = [
       );
     },
     filterFn: (row, columnId, filterValues) => {
+      console.log("filterValues: ", filterValues);
       if (!filterValues || filterValues.length === 0) return true;
       return filterValues.includes(row.getValue(columnId));
     },
@@ -123,6 +124,12 @@ export const shoppingTableColumns: ColumnDef<ShoppingListItemType>[] = [
       const isOpen: boolean = row.getValue("isOpen");
 
       return <Checkbox defaultChecked={!isOpen} disabled />;
+    },
+    filterFn: (row, columnId, filterValues) => {
+      const value: boolean = row.getValue(columnId);
+      const toString = value.toString();
+      if (!filterValues || filterValues.length === 0) return true;
+      return filterValues.includes(toString);
     },
   },
   {
