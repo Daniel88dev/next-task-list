@@ -3,6 +3,7 @@ import { ModeToggle } from "@/components/DarkModeToggle";
 import { UserButton } from "@clerk/nextjs";
 import { Navigation } from "@/app/(auth)/_components/Navigation";
 import { BookCheck } from "lucide-react";
+import DefaultUserIcon from "@/app/(auth)/_components/defaultUserIcon";
 
 const AuthHeader = () => {
   return (
@@ -17,7 +18,7 @@ const AuthHeader = () => {
       <Navigation />
       <div className={"flex gap-4"}>
         <ModeToggle />
-        <UserButton />
+        <UserButton fallback={<DefaultUserIcon />} />
       </div>
     </header>
   );
