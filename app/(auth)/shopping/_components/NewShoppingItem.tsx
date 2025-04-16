@@ -16,7 +16,10 @@ import {
   submitNewShoppingItem,
 } from "@/app/(auth)/shopping/shoppingActions";
 import { toast } from "sonner";
-import { categoryList } from "@/app/(auth)/shopping/_components/categoryTypes";
+import {
+  categoryList,
+  shoppingItemValidator,
+} from "@/app/(auth)/shopping/_components/categoryTypes";
 import { useForm } from "@tanstack/react-form";
 import { Card } from "@/components/ui/card";
 
@@ -31,6 +34,10 @@ const NewShoppingItem = () => {
     defaultValues: {
       shoppingItemName: "",
       category: "basic",
+    },
+    validators: {
+      onChangeAsyncDebounceMs: 500,
+      onChangeAsync: shoppingItemValidator,
     },
   });
 
@@ -54,16 +61,7 @@ const NewShoppingItem = () => {
       }}
     >
       <Card className={"flex items-end gap-4 content-start w-full"}>
-        <form.Field
-          name={"shoppingItemName"}
-          validators={{
-            onChangeAsyncDebounceMs: 500,
-            onChangeAsync: ({ value }) =>
-              value.length < 3
-                ? "Item name must be at least 3 characters long"
-                : undefined,
-          }}
-        >
+        <form.Field name={"shoppingItemName"}>
           {(field) => (
             <div className={"flex flex-col mb-4 h-24 min-w-84 w-auto w-84 p-2"}>
               <Label htmlFor={field.name}>Add New item to shopping list:</Label>
@@ -77,22 +75,18 @@ const NewShoppingItem = () => {
                 className={"w-80"}
               />
               {field.state.meta.errors ? (
-                <em role="alert" className={"text-red-500"}>
-                  {field.state.meta.errors.join(", ")}
-                </em>
+                <>
+                  <em role="alert" className={"text-red-500"}>
+                    {field.state.meta.errors
+                      .map((error) => error?.message)
+                      .join(", ")}
+                  </em>
+                </>
               ) : null}
             </div>
           )}
         </form.Field>
-        <form.Field
-          name={"category"}
-          validators={{
-            onChange: ({ value }) =>
-              categoryList.some((item) => item.name === value)
-                ? undefined
-                : "Please select a valid category",
-          }}
-        >
+        <form.Field name={"category"}>
           {(field) => (
             <div className={"flex flex-col mb-4 h-24 p-2"}>
               <Label htmlFor={field.name}>Type:</Label>
@@ -113,8 +107,18 @@ const NewShoppingItem = () => {
                       </div>
                     </SelectItem>
                   ))}
+                  <SelectItem value={"test"}>test</SelectItem>
                 </SelectContent>
               </Select>
+              {field.state.meta.errors ? (
+                <>
+                  <em role="alert" className={"text-red-500"}>
+                    {field.state.meta.errors
+                      .map((error) => error?.message)
+                      .join(", ")}
+                  </em>
+                </>
+              ) : null}
             </div>
           )}
         </form.Field>
