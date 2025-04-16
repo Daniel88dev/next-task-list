@@ -51,10 +51,12 @@ export function Navigation() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/settings" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Settings
-            </NavigationMenuLink>
+          <Link
+            href="/settings"
+            passHref
+            className={navigationMenuTriggerStyle()}
+          >
+            Settings
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
