@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/table";
 import { DataTableFacetedFilter } from "@/components/TaskTableComponents/DataTableFacetedFilter";
 import { categoryList } from "@/app/(auth)/shopping/_components/categoryTypes";
-import { Button } from "@/components/ui/button";
 import { DataTablePagination } from "@/components/ui/DataTablePagination";
 
 interface DataTableProps<TData, TValue> {
@@ -50,6 +49,8 @@ export function ShoppingDataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
+    autoResetPageIndex: false,
+    autoResetExpanded: false,
     state: {
       sorting,
       columnFilters,
