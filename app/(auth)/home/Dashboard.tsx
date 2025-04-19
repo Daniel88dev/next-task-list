@@ -31,9 +31,15 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { SimpleTaskType } from "@/drizzle/taskTable";
 
-const DashboardPage = () => {
-  const userName = "Daniel";
+type Props = {
+  firstName: string;
+  userTasks: SimpleTaskType[];
+  userTaskCount: number;
+};
+
+const DashboardPage = ({ firstName, userTasks, userTaskCount }: Props) => {
   const [activeTab, setActiveTab] = useState("all");
   const chartData = [
     { name: "Jan", total: 12 },
@@ -44,36 +50,24 @@ const DashboardPage = () => {
     { name: "Jun", total: 18 },
   ];
 
-  const tasks = [
-    {
-      id: 1,
-      title: "Complete project proposal",
-      completed: false,
-      type: "task",
-    },
-    { id: 2, title: "Review client feedback", completed: false, type: "task" },
-    { id: 3, title: "Schedule team meeting", completed: false, type: "task" },
-    { id: 4, title: "Milk", completed: false, type: "shopping" },
-    { id: 5, title: "Bread", completed: false, type: "shopping" },
-    { id: 6, title: "Eggs", completed: false, type: "shopping" },
-  ];
-
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card className="col-span-full">
           <CardHeader>
-            <CardTitle>Welcome back, {userName}!</CardTitle>
+            <CardTitle>Welcome back, {firstName}!</CardTitle>
+            <CardDescription>
+              Here&#39;s an overview of your tasks and shopping list
+            </CardDescription>
           </CardHeader>
-          <CardDescription>
-            Here&#39;s an overview of your tasks and shopping list
-          </CardDescription>
         </Card>
         <Card className="md:col-span-2">
           <CardHeader className="flex flex-row items-center">
             <div className="grid gap-2">
               <CardTitle>Current Tasks</CardTitle>
-              <CardDescription>You have 7 open items</CardDescription>
+              <CardDescription>
+                You have {userTaskCount} open items
+              </CardDescription>
               <Tabs
                 defaultValue={activeTab}
                 className="ml-auto"
@@ -90,8 +84,8 @@ const DashboardPage = () => {
           <CardContent>
             <ScrollArea className="h-[300px]">
               <div className="space-y-4">
-                {tasks.length > 0 ? (
-                  tasks.map((task) => (
+                {userTasks.length > 0 ? (
+                  userTasks.map((task) => (
                     <div
                       key={task.id}
                       className="flex items-center justify-between space-x-4 rounded-lg border p-4"

@@ -1,6 +1,6 @@
 import { taskTable } from "@/drizzle/schema";
 import { db } from "@/drizzle/db";
-import { and, eq } from "drizzle-orm";
+import { and, count, desc, eq, or, sql } from "drizzle-orm";
 
 export type TaskTableInsertType = typeof taskTable.$inferInsert;
 
@@ -58,4 +58,47 @@ export const updateTaskDescription = async (
     .set({ description: description })
     .where(and(eq(taskTable.id, taskId), eq(taskTable.userId, userId)))
     .returning({ taskId: taskTable.id });
+};
+
+export type SimpleTaskType = {
+  id: number;
+  title: string;
+  completed: boolean;
+  type: string;
+};
+
+export const getTop10TasksForUser = async (
+  userId: number
+): Promise<SimpleTaskType[]> => {
+  return db
+    .select({
+      id: taskTable.id,
+      title: taskTable.title,
+      completed:
+        sql<boolean>`CASE WHEN ${taskTable.completedAt} IS NOT NULL THEN true ELSE false END`.as(
+          "completed"
+        ),
+      type: taskTable.type,
+    })
+    .from(taskTable)
+    .where(
+      and(
+        eq(taskTable.userId, userId),
+        or(eq(taskTable.status, "todo"), eq(taskTable.status, "in_progress"))
+      )
+    )
+    .orderBy(desc(taskTable.priority), desc(taskTable.id))
+    .limit(10);
+};
+
+export const countTasksForUser = async (userId: number) => {
+  return db
+    .select({ count: count() })
+    .from(taskTable)
+    .where(
+      and(
+        eq(taskTable.userId, userId),
+        or(eq(taskTable.status, "todo"), eq(taskTable.status, "in_progress"))
+      )
+    );
 };
