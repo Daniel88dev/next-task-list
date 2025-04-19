@@ -51,3 +51,30 @@ export const putPurchaseShoppingItem = async (
     )
     .returning({ updatedId: shoppingListTable.id });
 };
+
+export type SimpleShoppingItemType = {
+  id: number;
+  title: string;
+  completed: boolean | null;
+  type: string;
+};
+
+export const getTop10ShoppingItemsForUser = async (
+  userId: number
+): Promise<SimpleShoppingItemType[]> => {
+  return db
+    .select({
+      id: shoppingListTable.id,
+      title: shoppingListTable.title,
+      completed: shoppingListTable.isOpen,
+      type: shoppingListTable.category,
+    })
+    .from(shoppingListTable)
+    .where(
+      and(
+        eq(shoppingListTable.userId, userId),
+        eq(shoppingListTable.isOpen, true)
+      )
+    )
+    .limit(10);
+};

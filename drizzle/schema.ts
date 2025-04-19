@@ -88,7 +88,7 @@ export const shoppingListTable = pgTable("shopping_list_table", {
   userId: integer("user_id")
     .notNull()
     .references(() => usersTable.id),
-  category: varchar("category", { length: 50 }),
+  category: varchar("category", { length: 50 }).notNull(),
   title: varchar("title", { length: 100 }).notNull(),
   isOpen: boolean("is_open").default(true),
   createdAt: timestamp("created_at").defaultNow(),
