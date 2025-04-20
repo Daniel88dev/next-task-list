@@ -2,7 +2,11 @@ import { currentUser } from "@clerk/nextjs/server";
 import DashboardPage from "@/app/(auth)/home/_components/Dashboard";
 import { notFound, redirect } from "next/navigation";
 import { tryCatch } from "@/lib/try-catch";
-import { countTasksForUser, getTop10TasksForUser } from "@/drizzle/taskTable";
+import {
+  countTasksForUser,
+  getTop10TasksForUser,
+  taskChartDataForUser,
+} from "@/drizzle/taskTable";
 import { getUserId } from "@/drizzle/user";
 import {
   getShoppingListQtyForUser,
@@ -59,6 +63,15 @@ const HomePage = async () => {
     notFound();
   }
 
+  const { data: chartData, error: chartError } = await tryCatch(
+    taskChartDataForUser(userId)
+  );
+
+  if (chartError) {
+    console.error(chartError);
+    notFound();
+  }
+
   return (
     <DashboardPage
       firstName={user.firstName!}
@@ -66,6 +79,7 @@ const HomePage = async () => {
       userTaskCount={taskCount[0].count}
       userShoppingCount={shoppingQty[0].count}
       userShoppingItems={userShoppingItems}
+      chartData={chartData}
     />
   );
 };

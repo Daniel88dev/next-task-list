@@ -102,3 +102,34 @@ export const countTasksForUser = async (userId: number) => {
       )
     );
 };
+
+export type TaskChartDataType = {
+  name: string;
+  total: number;
+};
+
+export const taskChartDataForUser = async (
+  userId: number
+): Promise<TaskChartDataType[]> => {
+  const data = await db
+    .select({
+      name: sql`TO_CHAR(DATE_TRUNC('month', ${taskTable.completedAt}), 'Mon')`,
+      total: sql`COUNT(*)`,
+    })
+    .from(taskTable)
+    .where(
+      and(
+        sql`${taskTable.completedAt} IS NOT NULL AND ${taskTable.completedAt} >= NOW() - INTERVAL '6 months'`,
+        eq(taskTable.userId, userId)
+      )
+    )
+    .groupBy(sql`DATE_TRUNC('month', ${taskTable.completedAt})`)
+    .orderBy(sql`DATE_TRUNC('month', ${taskTable.completedAt})`);
+
+  return data.map((record) => {
+    return {
+      name: record.name as string,
+      total: +record.total!,
+    };
+  });
+};

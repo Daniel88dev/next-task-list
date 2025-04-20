@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { SimpleTaskType } from "@/drizzle/taskTable";
+import { SimpleTaskType, TaskChartDataType } from "@/drizzle/taskTable";
 import { SimpleShoppingItemType } from "@/drizzle/shoppingList";
 import TabsTaskView from "@/app/(auth)/home/_components/TabsTaskView";
 
@@ -36,6 +36,7 @@ type Props = {
   userTaskCount: number;
   userShoppingCount: number;
   userShoppingItems: SimpleShoppingItemType[];
+  chartData: TaskChartDataType[];
 };
 
 const DashboardPage = ({
@@ -44,16 +45,8 @@ const DashboardPage = ({
   userTaskCount,
   userShoppingCount,
   userShoppingItems,
+  chartData,
 }: Props) => {
-  const chartData = [
-    { name: "Jan", total: 12 },
-    { name: "Feb", total: 8 },
-    { name: "Mar", total: 15 },
-    { name: "Apr", total: 20 },
-    { name: "May", total: 14 },
-    { name: "Jun", total: 18 },
-  ];
-
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
