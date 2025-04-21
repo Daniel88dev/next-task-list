@@ -1,5 +1,11 @@
+import CalendarMonthView from "@/app/(auth)/calendar/_components/CalendarMonthView";
+
 const CalendarPage = () => {
-  return <h1>Calendar Page</h1>;
+  return (
+    <>
+      <CalendarMonthView />
+    </>
+  );
 };
 
 export default CalendarPage;
