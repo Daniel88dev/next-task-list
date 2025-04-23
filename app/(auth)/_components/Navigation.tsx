@@ -52,6 +52,15 @@ export function Navigation() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
+            href={"/project"}
+            passHref
+            className={navigationMenuTriggerStyle()}
+          >
+            Project
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link
             href="/settings"
             passHref
             className={navigationMenuTriggerStyle()}

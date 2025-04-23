@@ -125,6 +125,7 @@ export default function Timeline() {
   });
 
   const onMileStoneChange = (milestone: Milestone) => {
+    console.log(milestone);
     setTimelineData((prevState) => {
       const mileStoneArray: Milestone[] = prevState.milestones.map((record) => {
         if (milestone.id === record.id) {
