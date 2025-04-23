@@ -144,12 +144,12 @@ export default function Timeline() {
           {/* Timeline column */}
           <div className="flex-1 relative">
             {/* Single continuous line - positioned with higher z-index */}
-            <div className="absolute h-[2px] bg-gray-400 top-[100px] left-0 right-0 z-5" />
+            <div className="absolute h-[2px] bg-gray-400 top-[100px] left-[80px] right-0 z-5" />
 
             {/* Active portion of the line */}
             {lastActiveIndex >= 0 && (
               <div
-                className="absolute h-[2px] bg-blue-600 top-[100px] left-0 z-5"
+                className="absolute h-[2px] bg-blue-600 top-[100px] left-[80px] z-5"
                 style={{
                   width: `calc(${
                     ((lastActiveIndex + 1) / timelineData.milestones.length) *
@@ -286,11 +286,13 @@ function MilestoneMarker({
         <div className="relative">
           {/* Background to cover the line */}
           <div
-            className="absolute w-6 h-6 bg-white z-6"
+            className="absolute w-6 h-6 bg-background z-6"
             style={{ top: -1, left: -1 }}
           />
           {/* Triangle on top */}
-          <Triangle className={`relative w-6 h-6 z-7 ${getStatusClasses()}`} />
+          <Triangle
+            className={`relative fill-white w-6 h-6 z-7 ${getStatusClasses()}`}
+          />
         </div>
       );
     case "end":
