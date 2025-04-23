@@ -91,7 +91,6 @@ const CalendarMonthView = () => {
           </span>
           <Button variant="ghost" size="icon" className="h-6 w-6">
             <Plus className="h-4 w-4" />
-            <span className="sr-only">Add task</span>
           </Button>
         </div>
         <div className="mt-1 space-y-1 overflow-y-auto max-h-[80px]">
@@ -108,7 +107,6 @@ const CalendarMonthView = () => {
         <div className="flex gap-2">
           <Button variant="outline" size="icon">
             <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Previous month</span>
           </Button>
           <Button variant="outline" size="icon">
             <ChevronRight className="h-4 w-4" />
