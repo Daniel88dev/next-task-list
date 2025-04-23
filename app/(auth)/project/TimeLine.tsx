@@ -122,7 +122,24 @@ export default function Timeline() {
         connector: "none",
       },
     ],
-  }); // Find the index of the last active milestone
+  });
+
+  const onMileStoneChange = (milestone: Milestone) => {
+    setTimelineData((prevState) => {
+      const mileStoneArray: Milestone[] = prevState.milestones.map((record) => {
+        if (milestone.id === record.id) {
+          return milestone;
+        } else {
+          return record;
+        }
+      });
+      return {
+        ...prevState,
+        milestones: mileStoneArray,
+      };
+    });
+  };
+  // Find the index of the last active milestone
   const lastActiveIndex = timelineData.milestones.reduce(
     (lastIndex, milestone, index) => {
       return milestone.status === "active" ? index : lastIndex;
@@ -187,6 +204,7 @@ export default function Timeline() {
                 <div
                   key={milestone.id}
                   className="flex flex-col items-center relative"
+                  onClick={() => onMileStoneChange(milestone)}
                   style={{
                     flexGrow: 1,
                     flexBasis: 0,
