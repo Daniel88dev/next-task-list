@@ -128,6 +128,19 @@ export default function Timeline() {
     ],
   });
 
+  const calculateTimelineLength = () => {
+    const startDate = timelineData.startDate.getTime();
+    const endDate = timelineData.endDate.getTime();
+    const diff = endDate - startDate;
+    const diffDays = diff / (1000 * 60 * 60 * 24);
+    const onePercent = diffDays / 92;
+    const today = new Date().getTime() / (1000 * 60 * 60 * 24);
+    const todayDiff = +(today / diffDays).toFixed(0);
+    return { startDate, endDate, diff, diffDays, onePercent, todayDiff };
+  };
+
+  console.log(calculateTimelineLength());
+
   const onMileStoneChange = (milestone: Milestone) => {
     console.log(milestone);
     setTimelineData((prevState) => {
@@ -166,23 +179,16 @@ export default function Timeline() {
           {/* Timeline column */}
           <div className="flex-1 relative">
             {/* Single continuous line - positioned with higher z-index */}
-            <div className="absolute h-[2px] bg-gray-400 top-[100px] left-[80px] right-0 z-5" />
+            <div className="absolute h-[2px] bg-gray-400 top-[100px] left-[80px] right-0 z-5 w-[92%]" />
 
             {/* Active portion of the line */}
             {lastActiveIndex >= 0 && (
               <div
-                className="absolute h-[2px] bg-blue-600 top-[100px] left-[80px] z-5"
+                className={
+                  "absolute h-[2px] bg-blue-600 top-[100px] left-[80px] z-5"
+                }
                 style={{
-                  width: `calc(${
-                    ((lastActiveIndex + 1) / timelineData.milestones.length) *
-                    100
-                  }% - ${
-                    timelineData.milestones.length > 1
-                      ? ((lastActiveIndex + 1) /
-                          timelineData.milestones.length) *
-                        32
-                      : 0
-                  }px)`,
+                  width: `${calculateTimelineLength().todayDiff}%`,
                 }}
               />
             )}
