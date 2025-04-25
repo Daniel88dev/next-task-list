@@ -10,7 +10,7 @@ type ConnectorType = "line" | "none";
 interface Milestone {
   id: number;
   name: string;
-  date: string;
+  date: Date;
   type: MilestoneType;
   status: MilestoneStatus;
   connector: ConnectorType;
@@ -18,17 +18,21 @@ interface Milestone {
 
 interface TimelineData {
   title: string;
+  startDate: Date;
+  endDate: Date;
   milestones: Milestone[];
 }
 
 export default function Timeline() {
   const [timelineData, setTimelineData] = useState<TimelineData>({
     title: "Schedule",
+    startDate: new Date(2025, 0, 22),
+    endDate: new Date(2027, 0, 25),
     milestones: [
       {
         id: 1,
         name: "Prepare PR",
-        date: "3/15",
+        date: new Date(2025, 0, 15),
         type: "circle-filled",
         status: "active",
         connector: "line",
@@ -36,7 +40,7 @@ export default function Timeline() {
       {
         id: 2,
         name: "Make PO",
-        date: "4/15",
+        date: new Date(2025, 3, 15),
         type: "circle",
         status: "pending",
         connector: "line",
@@ -44,7 +48,7 @@ export default function Timeline() {
       {
         id: 3,
         name: "Design",
-        date: "5/15",
+        date: new Date(2025, 4, 15),
         type: "circle",
         status: "pending",
         connector: "line",
@@ -52,7 +56,7 @@ export default function Timeline() {
       {
         id: 4,
         name: "Manufacturing",
-        date: "6/15",
+        date: new Date(2025, 5, 15),
         type: "circle",
         status: "pending",
         connector: "line",
@@ -60,7 +64,7 @@ export default function Timeline() {
       {
         id: 5,
         name: "OLT",
-        date: "8/18",
+        date: new Date(2025, 7, 18),
         type: "square",
         status: "pending",
         connector: "line",
@@ -68,7 +72,7 @@ export default function Timeline() {
       {
         id: 6,
         name: "",
-        date: "9/12",
+        date: new Date(2025, 8, 12),
         type: "circle",
         status: "pending",
         connector: "line",
@@ -76,7 +80,7 @@ export default function Timeline() {
       {
         id: 7,
         name: "Shipping",
-        date: "12/10",
+        date: new Date(2025, 11, 10),
         type: "circle",
         status: "pending",
         connector: "line",
@@ -84,31 +88,31 @@ export default function Timeline() {
       {
         id: 8,
         name: "install",
-        date: "12/25 (WSD)",
+        date: new Date(2025, 11, 25),
         type: "square",
         status: "pending",
         connector: "line",
       },
       {
         id: 9,
-        name: "T1",
-        date: "6/15",
+        name: "Event 1",
+        date: new Date(2026, 5, 15),
         type: "triangle",
         status: "pending",
         connector: "line",
       },
       {
         id: 10,
-        name: "LP2",
-        date: "8/15",
+        name: "Event 2",
+        date: new Date(2026, 7, 15),
         type: "triangle",
         status: "pending",
         connector: "line",
       },
       {
         id: 11,
-        name: "M",
-        date: "26' 11/1",
+        name: "Event 3",
+        date: new Date(2026, 10, 1),
         type: "circle",
         status: "pending",
         connector: "line",
@@ -116,7 +120,7 @@ export default function Timeline() {
       {
         id: 12,
         name: "SOP",
-        date: "",
+        date: new Date(2026, 11, 15),
         type: "end",
         status: "pending",
         connector: "none",
@@ -229,7 +233,7 @@ export default function Timeline() {
                   {/* Date */}
                   <div className="h-10 flex items-center justify-center mt-1">
                     <span className="text-xs text-gray-600">
-                      {milestone.date}
+                      {milestone.date.getMonth() + 1}/{milestone.date.getDate()}
                     </span>
                   </div>
                 </div>
